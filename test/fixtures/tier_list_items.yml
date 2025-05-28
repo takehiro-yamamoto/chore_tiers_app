@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tier_list: one
+  chore: one
+  tier: one
+  position: 1
+
+two:
+  tier_list: two
+  chore: two
+  tier: two
+  position: 1

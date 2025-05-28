@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_28_030154) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_28_080609) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -62,6 +62,35 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_28_030154) do
     t.index ["user_id"], name: "index_completion_logs_on_user_id"
   end
 
+  create_table "tier_list_items", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "tier_list_id", null: false
+    t.bigint "chore_id", null: false
+    t.bigint "tier_id", null: false
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chore_id"], name: "index_tier_list_items_on_chore_id"
+    t.index ["tier_id"], name: "index_tier_list_items_on_tier_id"
+    t.index ["tier_list_id"], name: "index_tier_list_items_on_tier_list_id"
+  end
+
+  create_table "tier_list_memberships", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "tier_list_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tier_list_id"], name: "index_tier_list_memberships_on_tier_list_id"
+    t.index ["user_id"], name: "index_tier_list_memberships_on_user_id"
+  end
+
+  create_table "tier_lists", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.bigint "creator_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_tier_lists_on_creator_id"
+  end
+
   create_table "tiers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.string "label"
@@ -88,4 +117,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_28_030154) do
   add_foreign_key "chores", "users", column: "assigned_to_id"
   add_foreign_key "completion_logs", "chores"
   add_foreign_key "completion_logs", "users"
+  add_foreign_key "tier_list_items", "chores"
+  add_foreign_key "tier_list_items", "tier_lists"
+  add_foreign_key "tier_list_items", "tiers"
+  add_foreign_key "tier_list_memberships", "tier_lists"
+  add_foreign_key "tier_list_memberships", "users"
+  add_foreign_key "tier_lists", "users", column: "creator_id"
 end
