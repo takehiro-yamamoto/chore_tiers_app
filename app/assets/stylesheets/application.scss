@@ -13,4 +13,6 @@
  *= require_tree .
  *= require_self
  */
- @import "tier_lists";
+ @import "tier_lists_edit.scss";
+ @import "devise/registrations";
+ @import "devise/sessions";
