@@ -1,0 +1,32 @@
+<div class="register-container">
+  <div class="register-card">
+    <h2 class="register-title">新規登録</h2>
+
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <div class="field-group">
+        <%= f.label :email, "メールアドレス" %>
+        <%= f.email_field :email, autofocus: true %>
+      </div>
+
+      <div class="field-group">
+        <%= f.label :password, "パスワード" %>
+        <%= f.password_field :password, autocomplete: "new-password" %>
+      </div>
+
+      <div class="field-group">
+        <%= f.label :password_confirmation, "確認用パスワード" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+      </div>
+
+      <div class="form-actions">
+        <%= f.submit "登録する", class: "register-button" %>
+      </div>
+    <% end %>
+
+    <div class="link-to-login">
+      すでに登録済みですか？ <%= link_to "ログイン", new_session_path(resource_name) %>
+    </div>
+  </div>
+</div>
+
+<%= render "devise/shared/links" %>

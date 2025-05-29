@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_28_080609) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_29_004814) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -79,6 +79,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_28_080609) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["tier_list_id", "user_id"], name: "index_tier_list_memberships_on_tier_list_id_and_user_id", unique: true
     t.index ["tier_list_id"], name: "index_tier_list_memberships_on_tier_list_id"
     t.index ["user_id"], name: "index_tier_list_memberships_on_user_id"
   end
@@ -107,6 +108,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_28_080609) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name", null: false
+    t.string "avatar_url"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

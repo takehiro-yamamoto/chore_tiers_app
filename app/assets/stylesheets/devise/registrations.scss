@@ -1,0 +1,79 @@
+.register-container {
+  background-color: #F5F5DC;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.register-card {
+  background-color: white;
+  padding: 2rem 2.5rem;
+  border-radius: 0.5rem;
+  border: 2px solid #D2B48C;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;
+}
+
+.register-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #A0522D;
+}
+
+.field-group {
+  margin-bottom: 1.2rem;
+
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: #5C4033;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid #D2B48C;
+    border-radius: 0.3rem;
+    font-size: 1rem;
+  }
+}
+
+.form-actions {
+  text-align: center;
+
+  .register-button {
+    background-color: #FFB347;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.4rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #FFA500;
+    }
+  }
+}
+
+.link-to-login {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+
+  a {
+    color: #FFB347;
+    text-decoration: underline;
+
+    &:hover {
+      color: #FFA500;
+    }
+  }
+}
