@@ -5,7 +5,9 @@ Rails.application.routes.draw do
 
   resource :dashboard, only: [:index]
 
-  resources :chores, only: [:new, :create, :destroy, :show, :edit,:update]
+  resources :chores, only: [:new, :create, :destroy, :show, :edit,:update] do
+    resources :completions, only: [:create]
+  end
 
   resources :tier_lists do
     member do

@@ -1,0 +1,2 @@
+module CompletionLogsHelper
+end
