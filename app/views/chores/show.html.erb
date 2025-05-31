@@ -40,6 +40,25 @@
     </section>
 
     <section class="chore-history-box">
+      <section class="chore-log-form-box">
+        <h2>完了ログを追加</h2>
+         <%= form_with model: [@chore, CompletionLog.new], local: true do |f| %>
+        <div class="log-form-fields">
+         <div class="field">
+           <%= f.label :completed_at, "完了日" %>
+           <%= f.date_field :completed_at, class: "form-input" %>
+        </div>
+         <div class="field">
+           <%= f.label :note, "ノート" %>
+           <%= f.text_field :note, class: "form-input" %>
+         </div>
+        </div>
+       <div class="log-form-actions">
+         <%= f.submit "登録", class: "log-submit-btn" %>
+       </div>
+      <% end %>
+      </section>
+
       <h2>完了履歴</h2>
       <table>
         <thead>
