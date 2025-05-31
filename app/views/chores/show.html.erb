@@ -1,4 +1,68 @@
-<div>
-  <h1 class="font-bold text-4xl">Chores#show</h1>
-  <p>Find me in app/views/chores/show.html.erb</p>
+<%# app/views/chores/show.html.erb %>
+<div class="chore-detail-container">
+  <header class="chore-header">
+    <div class="chore-header__logo">ふたりの家事</div>
+    <nav class="chore-header__nav">
+      <%= link_to "ホーム", root_path %>
+      <%= link_to "ティアリスト", tier_lists_path %>
+      <%= link_to "家事一覧", chores_path %>
+      <%= link_to "設定", "#" %>
+    </nav>
+  </header>
+
+  <main class="chore-main">
+    <div class="chore-hero" style="background-image: url(<%= asset_path('sample_bg.jpg') %>)">
+      <div class="chore-hero__overlay">
+        <h1><%= @chore.title %></h1>
+        <p><%= @chore.description.presence || "家事に関する情報を表示します。" %></p>
+      </div>
+    </div>
+
+    <section class="chore-info-box">
+      <h2>詳細情報</h2>
+      <div class="chore-info-grid">
+        <div class="chore-info-item">
+          <span>ティア:</span>
+          <div class="tier-label"><%= @chore.tier&.label || "-" %></div>
+        </div>
+        <div class="chore-info-item">
+          <span>担当:</span>
+          <div class="chore-assignee">
+            <%= image_tag("avatar_placeholder.png", class: "chore-avatar") %>
+            <p><%= @chore.assigned_to&.name || "未設定" %></p>
+          </div>
+        </div>
+        <div class="chore-info-item">
+          <span>完了状態:</span>
+          <p class="status-text"><%= @chore.completed? ? "完了" : "未完了" %></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="chore-history-box">
+      <h2>完了履歴</h2>
+      <table>
+        <thead>
+          <tr><th>日付</th><th>ノート</th></tr>
+        </thead>
+        <tbody>
+          <% @chore.completion_logs.order(completed_at: :desc).each do |log| %>
+            <tr>
+              <td><%= l(log.completed_at.to_date) %></td>
+              <td><%= log.note.presence || "なし" %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="chore-actions">
+      <%= link_to "編集", edit_chore_path(@chore), class: "edit-btn" %>
+      <%= link_to "削除", chore_path(@chore), data: { turbo_method: :delete, confirm: "本当に削除しますか？" }, class: "delete-btn" %>
+    </div>
+  </main>
+
+  <footer class="chore-footer">
+    <p>© 2024 </p>
+  </footer>
 </div>

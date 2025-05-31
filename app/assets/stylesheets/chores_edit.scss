@@ -1,0 +1,61 @@
+
+/* chores/edit.scss */
+
+body {
+  background-color: #F5F5DC;
+  font-family: "Noto Sans JP", "Inter", sans-serif;
+}
+
+.header {
+  background-color: #D2B48C;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #b0a079;
+}
+
+h1, h2 {
+  color: #333333;
+}
+
+.section {
+  background-color: rgba(210, 180, 140, 0.2);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.label {
+  font-weight: bold;
+  color: #4A4A4A;
+  margin-right: 0.5rem;
+}
+
+.value {
+  color: #333333;
+  font-weight: 600;
+}
+
+.button-edit {
+  background-color: #FFB347;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.button-edit:hover {
+  background-color: #E6A140;
+}
+
+.button-delete {
+  background-color: #D2B48C;
+  color: #333333;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.button-delete:hover {
+  background-color: #b99c7a;
+}

@@ -1,4 +1,40 @@
-<div>
-  <h1 class="font-bold text-4xl">Chores#new</h1>
-  <p>Find me in app/views/chores/new.html.erb</p>
-</div>
+<h1 class="text-2xl font-bold mb-6 text-heading">家事を登録する</h1>
+
+<%= form_with model: @chore, local: true do |f| %>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <!-- タイトル -->
+    <div>
+      <%= f.label :title, "家事名", class: "block font-semibold text-heading mb-1" %>
+      <%= f.text_field :title, class: "w-full px-4 py-2 border border-subtle-light-brown rounded-md" %>
+    </div>
+
+    <!-- 担当者 -->
+    <div>
+      <%= f.label :assigned_to_id, "担当者", class: "block font-semibold text-heading mb-1" %>
+      <%= f.collection_select :assigned_to_id, User.all, :id, :name, { include_blank: true }, class: "w-full px-4 py-2 border border-subtle-light-brown rounded-md" %>
+    </div>
+
+    <!-- ティア選択 -->
+    <div>
+      <%= f.label :tier_id, "ティア", class: "block font-semibold text-heading mb-1" %>
+      <%= f.collection_select :tier_id, Tier.all.order(:priority), :id, :label, { prompt: "選択してください" }, class: "w-full px-4 py-2 border border-subtle-light-brown rounded-md" %>
+    </div>
+  </div>
+
+  <!-- 説明 -->
+  <div class="mb-6">
+    <%= f.label :description, "詳細メモ", class: "block font-semibold text-heading mb-1" %>
+    <%= f.text_area :description, rows: 4, class: "w-full px-4 py-2 border border-subtle-light-brown rounded-md" %>
+  </div>
+
+  <!-- 完了状態 -->
+  <div class="mb-6">
+    <%= f.label :completed, "完了状態", class: "block font-semibold text-heading mb-1" %>
+    <%= f.check_box :completed, class: "mr-2" %> 完了済み
+  </div>
+
+  <!-- ボタン -->
+  <div class="flex justify-end gap-4">
+    <%= f.submit "登録する", class: "px-6 py-2 rounded-full bg-accent-soft-orange text-white hover:bg-accent-soft-orange-darker" %>
+  </div>
+<% end %>

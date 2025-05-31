@@ -1,0 +1,73 @@
+// ベースカラー定義
+$base-light-beige: #F5F5DC;
+$accent-soft-orange: #FFB347;
+$accent-soft-orange-darker: #E6A140;
+$subtle-light-brown: #D2B48C;
+$text-heading: #333333;
+$text-content: #4A4A4A;
+
+body {
+  font-family: "Noto Sans JP", "Inter", sans-serif;
+  background-color: $base-light-beige;
+  color: $text-content;
+}
+
+.chore-form-container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.chore-form-container h1 {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  color: $text-heading;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: $text-heading;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid $subtle-light-brown;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background-color: #fff;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.submit-button {
+  background-color: $accent-soft-orange;
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: $accent-soft-orange-darker;
+}
