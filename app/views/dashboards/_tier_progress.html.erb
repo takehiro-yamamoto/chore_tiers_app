@@ -1,0 +1,16 @@
+<div class="tier-progress-card">
+  <h3 class="tier-progress-title">ティア別完了状況</h3>
+  <div class="tier-progress-list">
+    <% @tier_completion_data.each do |tier| %>
+      <div class="tier-progress-item">
+        <div class="tier-progress-header">
+          <span class="tier-name" style="color: <%= tier[:color] %>;"><%= tier[:label] %></span>
+          <span class="tier-rate"><%= tier[:completed] %>/<%= tier[:total] %> (<%= tier[:percent] %>%)</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar" style="width: <%= tier[:percent] %>%; background-color: <%= tier[:color] %>;"></div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<div class="dashboard-tier-list stat-card">
+  <h3 class="section-title">家事ティアリスト</h3>
+
+  <% @tiers.each do |tier| %>
+    <div class="tier-row">
+      <span class="tier-label <%= tier.name.downcase %>"><%= tier.label %></span>
+      <div class="chore-list">
+        <% @chore_items_by_tier[tier.id]&.each do |chore| %>
+          <span class="chore-item">
+            <%= chore.title %>
+            <% if chore.completed %>
+              <span class="material-icons text-green-500">check_circle</span>
+            <% end %>
+          </span>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

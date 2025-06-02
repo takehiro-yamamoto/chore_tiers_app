@@ -1,0 +1,22 @@
+<div class="user-chart-card">
+  <h3 class="user-chart-title">ユーザー別完了状況</h3>
+  <% @user_completion_stats.each do |user, stats| %>
+    <div class="user-chart-row">
+      <div class="user-info">
+        <%= image_tag(user.avatar_url.presence || 'avatar_placeholder.png', class: 'user-avatar') %>
+        <span class="user-name"><%= user.name %></span>
+      </div>
+      <div class="user-progress-info">
+        <div class="user-progress-text">
+          完了: <%= stats[:completed] %>/<%= stats[:total] %>
+          <span class="user-progress-percent" style="color:<%= stats[:color] %>">
+            <%= number_to_percentage(stats[:percent], precision: 1) %>
+          </span>
+        </div>
+        <div class="user-progress-bar">
+          <div class="user-progress-fill" style="width: <%= stats[:percent] %>%; background-color: <%= stats[:color] %>;"></div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

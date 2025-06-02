@@ -1,0 +1,21 @@
+<!-- app/views/dashboards/_upcoming_summary.html.erb -->
+<div class="upcoming-summary-card">
+  <h3 class="section-title">今週の予定家事</h3>
+
+  <div class="summary-overall">
+    <span class="summary-label">合計：</span>
+    <span class="summary-count"><%= @upcoming_chores.count %> 件</span>
+  </div>
+
+  <div class="summary-by-user">
+    <% @upcoming_count_by_user.each do |user, count| %>
+      <div class="user-row">
+        <div class="user-info">
+          <%= image_tag(user&.avatar_url || 'avatar_placeholder.png', class: "user-avatar") %>
+          <span><%= user&.name || "未設定" %></span>
+        </div>
+        <span class="user-count"><%= count %> 件</span>
+      </div>
+    <% end %>
+  </div>
+</div>

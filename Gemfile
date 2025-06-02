@@ -77,3 +77,4 @@ gem 'chartkick' # 統計グラフ
 gem 'groupdate' # 集計用
 gem 'image_processing'      # ActiveStorage画像処理
 gem "sassc" # SCSSコンパイラ
+gem 'sassc-rails' # SCSSをRailsで使うためのgem

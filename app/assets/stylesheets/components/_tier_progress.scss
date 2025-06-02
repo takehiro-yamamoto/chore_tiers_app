@@ -1,0 +1,45 @@
+.tier-progress-card {
+  background-color: #fff;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid #D2B48C;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+
+  .tier-progress-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #5D4037;
+    margin-bottom: 1rem;
+  }
+
+  .tier-progress-item {
+    margin-bottom: 1rem;
+
+    .tier-progress-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.4rem;
+
+      .tier-name {
+        font-weight: 600;
+      }
+
+      .tier-rate {
+        font-size: 0.9rem;
+        color: #7A6C5D;
+      }
+    }
+
+    .progress-bar-bg {
+      background-color: #E0E0E0;
+      height: 0.75rem;
+      border-radius: 9999px;
+      overflow: hidden;
+
+      .progress-bar {
+        height: 100%;
+        border-radius: 9999px;
+      }
+    }
+  }
+}
