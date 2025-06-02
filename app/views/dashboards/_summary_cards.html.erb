@@ -1,0 +1,14 @@
+<div class="summary-card-grid">
+  <div class="summary-card">
+    <p class="label">全家事数</p>
+    <p class="count"><%= @total_chores %> 件</p>
+  </div>
+  <div class="summary-card">
+    <p class="label">完了済</p>
+    <p class="count completed"><%= @completed_chores %> 件</p>
+  </div>
+  <div class="summary-card">
+    <p class="label">未完了</p>
+    <p class="count pending"><%= @incomplete_chores %> 件</p>
+  </div>
+</div>
