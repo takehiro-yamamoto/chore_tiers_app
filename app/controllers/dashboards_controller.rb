@@ -1,5 +1,13 @@
 class DashboardsController < ApplicationController
-  before_action :authenticate_user!
+  # ティア別の完了状況（S〜Dランク単位でカウント）
+      TIER_COLORS = {
+      "S" => "#FFB347",
+      "A" => "#FFC872",
+      "B" => "#FFDAB3",
+      "C" => "#FFEBCD",
+      "D" => "#FFF5E6"
+      }.freeze
+  before_action :authenticate_user! # ユーザー認証を確認
 
   def index
     
@@ -25,7 +33,8 @@ class DashboardsController < ApplicationController
     # ティアリスト（作成＋共有）
     @tier_lists = @user.created_tier_lists + @user.shared_tier_lists
     @selected_tier_list = @tier_lists.first
-
+    
+    
     # ティア別の家事分類
     if @selected_tier_list
       tier_items = @selected_tier_list.tier_list_items.includes(:tier, :chore)
@@ -41,9 +50,24 @@ class DashboardsController < ApplicationController
 
         { total: total, completed: completed, percent: percent }
       end
+     
+      
+      # ティア別の完了状況（S〜Dランク単位でカウント）
+      @tier_completion_data = @tier_completion_stats.map do |tier, stats|
+      {
+      label: tier.label,
+      color: TIER_COLORS[tier.label] || "#D2B48C",
+      percent: stats[:percent],
+      completed: stats[:completed],
+      total: stats[:total]
+      }
+      end
+
+
     else
-      @tier_items_by_rank = {}
-      @tier_completion_stats = {}
+      @tier_items_by_rank = {} # nil回避
+      @tier_completion_stats = {} # nil回避
+      @tier_completion_data = [] # nil回避
     end
 
     # 担当ユーザーごとの完了数（過去30日）
@@ -66,9 +90,9 @@ class DashboardsController < ApplicationController
       end_day = base_date.end_of_week(:sunday)
       (start_day..end_day).to_a
     else
-      start_day = base_date.beginning_of_month.beginning_of_week(:sunday)
-      end_day = base_date.end_of_month.end_of_week(:sunday)
-      (start_day..end_day).to_a
+      start_day = base_date.beginning_of_month
+    end_day = base_date.end_of_month
+    (start_day..end_day).to_a
     end
 
     # カレンダー表示用（予定家事）
@@ -92,6 +116,17 @@ class DashboardsController < ApplicationController
     @upcoming_chores = Chore.where(created_at: @upcoming_week_range)
                         .includes(:assigned_to)
     @upcoming_count_by_user = @upcoming_chores.group_by(&:assigned_to).transform_values(&:count)
+
+    @user_completion_stats = User.includes(:completion_logs).map do |user|
+    # 対象ユーザーの完了ログ数（過去30日）
+    completed_count = user.completion_logs.where(completed_at: 30.days.ago..Time.current).count
+    # 対象ユーザーの全家事数（担当分）
+    total_count = Chore.where(assigned_to: user).count
+    # 完了率
+    percent = total_count > 0 ? ((completed_count.to_f / total_count) * 100).round(1) : 0.0
+
+    [user, { completed: completed_count, total: total_count, percent: percent }]
+    end.to_h
 
   end
 end
