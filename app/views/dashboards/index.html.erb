@@ -1,29 +1,32 @@
-<%# app/views/dashboards/index.html.erb %>
 
-<div class="dashboard-container">
+<div class="w-full max-w-screen-xl mx-auto px-4 py-6 space-y-6 overflow-hidden">
 
-  <%= render "dashboards/header", user: current_user %>
+  <!-- サマリーカード -->
+  <%= render "summary_cards" %>
 
-  <div class="dashboard-grid">
-    <div class="dashboard-left">
-      <%= render "dashboards/stats_summary", chores: @user_chores %>
-      <%= render "dashboards/user_stats", data: @user_stats %>
-      <%= render "dashboards/recent_logs", logs: @recent_logs %>
-    </div>
+  <!-- ティアリスト -->
+  <%= render "tier_list" %>
 
-    <div class="dashboard-center">
-      <%= render "dashboards/calendar", calendar_data: @calendar_data %>
-    </div>
+  <!-- ティア別進捗 -->
+  <%= render "tier_progress" %>
 
-    <div class="dashboard-right">
-      <%= render "dashboards/tier_list", tier_items: @tier_items %>
-      <%= render "dashboards/tier_progress", tier_progress: @tier_progress %>
-    </div>
+  <!-- 今週の予定サマリー -->
+  <%= render "upcoming_summary" %>
+
+  <!-- カレンダー（横幅広く） -->
+  <div class="w-full">
+    <%= render "calendar" %>
   </div>
 
-  <div class="dashboard-bottom-actions">
-    <%= link_to "+ 家事を追加", new_chore_path, class: "floating-add-button" %>
-    <%= link_to "未完了家事一覧へ", chores_path(status: "incomplete"), class: "link-to-incomplete" %>
+  <!-- ✅ ユーザー別グラフ＆完了履歴（横並び） -->
+  <div class="grid grid-cols-2 gap-4 h-64">
+    <%= render "user_chart" %>
+    <%= render "recent_logs" %>
   </div>
 
+  <!-- 新規家事作成ボタン -->
+  <%= render "new_chore_button" %>
+
+  <!-- 未完了家事リンク -->
+  <%= render "link_to_incomplete" %>
 </div>

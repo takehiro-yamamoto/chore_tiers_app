@@ -8,4 +8,5 @@ class User < ApplicationRecord
   has_many :created_tier_lists, class_name: 'TierList', foreign_key: 'creator_id'
   has_many :tier_list_memberships
   has_many :shared_tier_lists, through: :tier_list_memberships, source: :tier_list
+  has_many :assigned_chores, class_name: "Chore", foreign_key: "assigned_to_id"
 end

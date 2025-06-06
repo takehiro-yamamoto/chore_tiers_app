@@ -3,8 +3,10 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  resource :dashboard, only: [:index] do
-    get 'calendar', to: 'dashboards#calendar'
+  resources :dashboards, only: [:index] do
+    collection do
+      get :calendar
+    end
   end
 
   resources :chores, only: [:new, :create, :destroy, :show, :edit,:update] do

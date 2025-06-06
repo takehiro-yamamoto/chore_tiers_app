@@ -1,68 +1,66 @@
-<div class="calendar-section stat-card">
-  <div class="flex justify-between items-center mb-4">
-    <h3 class="text-xl font-semibold text-[#5D4037]">家事カレンダー</h3>
-    <div class="flex gap-2">
-      <%= link_to "月表示", dashboard_path(date: @display_date, view: "month"),
-            class: "calendar-toggle-btn #{'active' if @view_mode == 'month'}" %>
-      <%= link_to "週表示", dashboard_path(date: @display_date, view: "week"),
-            class: "calendar-toggle-btn #{'active' if @view_mode == 'week'}" %>
+<turbo-frame id="calendar">
+  <div class="calendar-container">
+    <div class="calendar-header">
+      <h3 class="calendar-title">家事カレンダー</h3>
+      <div class="calendar-view-switch">
+        <%= link_to "月表示", dashboards_path(date: @display_date, view: "month"), data: { turbo_frame: "calendar" }, class: "calendar-btn" %>
+        <%= link_to "週表示", dashboards_path(date: @display_date, view: "week"), data: { turbo_frame: "calendar" }, class: "calendar-btn" %>
+      </div>
+    </div>
+
+    <div class="calendar-navigation">
+      <%= link_to "＜", dashboards_path(date: @display_date.prev_month, view: @view_mode), data: { turbo_frame: "calendar" }, class: "calendar-arrow" %>
+      <p class="calendar-month"><%= @display_date.strftime("%Y年 %-m月") %></p>
+      <%= link_to "＞", dashboards_path(date: @display_date.next_month, view: @view_mode), data: { turbo_frame: "calendar" }, class: "calendar-arrow" %>
+    </div>
+
+    <div class="calendar-weekdays">
+      <% %w[日 月 火 水 木 金 土].each_with_index do |day, i| %>
+        <div class="calendar-weekday <%= 'sun' if i == 0 %><%= ' sat' if i == 6 %>"><%= day %></div>
+      <% end %>
+    </div>
+
+    <div class="calendar-grid">
+      <% if @view_mode == "week" %>
+        <% start_date = @display_date.beginning_of_week(:sunday) %>
+        <% end_date = @display_date.end_of_week(:sunday) %>
+      <% else %>
+        <% start_date = @display_date.beginning_of_month.beginning_of_week(:sunday) %>
+        <% end_date = @display_date.end_of_month.end_of_week(:sunday) %>
+      <% end %>
+
+      <% (start_date..end_date).each do |date| %>
+        <% next if @view_mode == "month" && date.month != @display_date.month %>
+        <% is_selected = params[:selected] == date.to_s || (!params[:selected] && date == Date.current) %>
+        <div class="calendar-cell <%= 'today' if date == Date.current %> <%= 'selected' if is_selected %>">
+          <%= link_to date.day, dashboards_path(date: @display_date, view: @view_mode, selected: date), data: { turbo_frame: "calendar" }, class: "calendar-date-link" %>
+          <% chores = @calendar_chores.select { |c| c.created_at.to_date == date } %>
+          <% if chores.any? %>
+            <div class="calendar-dots">
+              <% chores.each do |chore| %>
+                <div class="calendar-dot" title="<%= chore.title %>"></div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="calendar-today-detail">
+      <% selected_day = params[:selected] ? Date.parse(params[:selected]) : Date.current %>
+      <% todays_chores = @calendar_chores.select { |c| c.created_at.to_date == selected_day } %>
+
+      <h5 class="calendar-detail-title"><%= selected_day.strftime("%-m月%-d日") %>の予定された家事</h5>
+      <% if todays_chores.any? %>
+        <% todays_chores.each do |chore| %>
+          <div class="calendar-task-item">
+            <span><%= chore.title %>（<%= chore.tier&.label || "ランク不明" %>）</span>
+            <span class="assigned-name"><%= chore.assigned_to&.name || "未設定" %></span>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="no-task">予定された家事はありません。</p>
+      <% end %>
     </div>
   </div>
-
-  <div class="flex items-center justify-between mb-3">
-    <%= link_to "＜", dashboard_path(date: (@view_mode == "week" ? @display_date - 7 : @display_date.prev_month), view: @view_mode),
-          class: "calendar-nav-btn" %>
-
-    <h4 class="text-[#5D4037] text-lg font-medium">
-      <%= @display_date.strftime("%Y年 %-m月") %>
-    </h4>
-
-    <%= link_to "＞", dashboard_path(date: (@view_mode == "week" ? @display_date + 7 : @display_date.next_month), view: @view_mode),
-          class: "calendar-nav-btn" %>
-  </div>
-
-  <div class="grid grid-cols-7 gap-1 text-center text-xs text-[#7A6C5D] mb-2">
-    <% %w[日 月 火 水 木 金 土].each do |day| %>
-      <span><%= day %></span>
-    <% end %>
-  </div>
-
-  <div class="grid grid-cols-7 gap-1 text-[#5D4037]">
-    <% @calendar_range.each do |date| %>
-      <div class="calendar-day <%= 'text-gray-400' if date.month != @display_date.month %>
-                                <%= 'selected' if date == Date.current %>">
-        <div><%= date.day %></div>
-
-        <% chores = @calendar_chores.select { |c| c.created_at.to_date == date } %>
-        <% if chores.any? %>
-          <div class="flex justify-center gap-1 mt-1">
-            <% chores.each do |chore| %>
-              <div class="calendar-dot" style="background-color: #FFB347;" title="<%= chore.title %>"></div>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
-
-  <% selected_day = params[:date] ? Date.parse(params[:date]) : Date.current %>
-  <% todays_chores = @calendar_chores.select { |c| c.created_at.to_date == selected_day } %>
-
-  <div class="mt-4 pt-3 border-t border-[#D2B48C]">
-    <h5 class="text-md font-semibold text-[#5D4037] mb-2">
-      <%= selected_day.strftime("%-m月%-d日") %>の予定された家事
-    </h5>
-    <% if todays_chores.any? %>
-      <div class="space-y-2">
-        <% todays_chores.each do |chore| %>
-          <div class="flex items-center justify-between p-2 bg-[#FFF9F0] rounded-md border border-[#D2B48C]">
-            <span class="text-sm text-[#5D4037]"><%= chore.title %> (<%= chore.tier&.label %>ランク)</span>
-            <span class="text-xs text-[#7A6C5D]"><%= chore.assigned_to&.name || "未設定" %></span>
-          </div>
-        <% end %>
-      </div>
-    <% else %>
-      <p class="text-sm text-[#7A6C5D]">予定された家事はありません。</p>
-    <% end %>
-  </div>
-</div>
+</turbo-frame>
