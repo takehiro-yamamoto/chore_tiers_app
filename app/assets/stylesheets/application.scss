@@ -33,6 +33,7 @@
 
 // 統合レイアウト
 @import "components/dashboard_layout"; // 上記で追加したスタイルを新規ファイルに分割も可
+@import "components/layout";
 
 .dashboard-container {
   display: grid;
