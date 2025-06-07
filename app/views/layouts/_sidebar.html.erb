@@ -1,0 +1,18 @@
+<aside class="app-sidebar">
+  <nav>
+    <ul>
+      <li><%= link_to "📊 ダッシュボード", dashboards_path %></li>
+      <li><%= link_to "📋 家事一覧", "#" %></li>
+      <li><%= link_to "➕ 家事を追加", new_chore_path %></li>
+       <li>
+        <% if defined?(@selected_tier_list) && @selected_tier_list.present? %>
+          <%= link_to "🗂️ ティアリスト編集", edit_tiers_tier_list_path(@selected_tier_list) %>
+        <% else %>
+          <%= link_to "🗂️ ティアリスト作成", new_tier_list_path %>
+        <% end %>
+      </li>
+      <li><%= link_to "📖 完了履歴", "#" %></li>
+      <li><%= link_to "👥 メンバー管理", "#" %></li>
+    </ul>
+  </nav>
+</aside>
