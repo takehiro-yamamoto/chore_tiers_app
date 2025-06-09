@@ -5,7 +5,9 @@ class ChoresController < ApplicationController
 
   def new
     @chore = Chore.new
-    @tier_lists = current_user.shared_tier_lists
+    @tier_lists = TierList.where(user: current_user) 
+    @tiers = Tier.order(:priority)
+    @users = User.order(:name)
   end
 
   def create
