@@ -1,73 +1,104 @@
-// ベースカラー定義
-$base-light-beige: #F5F5DC;
-$accent-soft-orange: #FFB347;
-$accent-soft-orange-darker: #E6A140;
-$subtle-light-brown: #D2B48C;
-$text-heading: #333333;
-$text-content: #4A4A4A;
-
-body {
-  font-family: "Noto Sans JP", "Inter", sans-serif;
-  background-color: $base-light-beige;
-  color: $text-content;
-}
-
 .chore-form-container {
-  max-width: 720px;
+  max-width: 700px;
   margin: 0 auto;
   padding: 2rem;
-  background-color: white;
-  border-radius: 1rem;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  background-color: #fffaf4; // ← サイドバーと同じ色に統一
+  border: 1px solid #d2b48c;
+  border-radius: 10px;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.05); // やや控えめに
 }
 
-.chore-form-container h1 {
-  font-size: 1.75rem;
+.form-title {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #5c4835;
   font-weight: bold;
-  margin-bottom: 2rem;
-  color: $text-heading;
   text-align: center;
 }
 
+.form-errors {
+  background-color: #fff0f0;
+  color: #a94442;
+  padding: 0.8rem;
+  border-radius: 5px;
+  margin-bottom: 1.2rem;
+  font-size: 0.9rem;
+  border: 1px solid #f5c2c2;
+}
+
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
+
+  label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.3rem;
+    color: #5c4835;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #ffffff;
+  }
 }
 
-.form-group label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: $text-heading;
+.form-flex-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+
+  .form-half {
+    flex: 1;
+
+    label {
+      font-weight: bold;
+      margin-bottom: 0.3rem;
+      display: block;
+      color: #5c4835;
+    }
+
+    select {
+      width: 100%;
+      padding: 0.6rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      background-color: #ffffff;
+    }
+  }
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid $subtle-light-brown;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  background-color: #fff;
-}
+.form-button-group {
+  margin-top: 2rem;
+  text-align: center;
 
-.form-group textarea {
-  resize: vertical;
-  min-height: 120px;
-}
+  .btn-submit {
+    background-color: #d2b48c;
+    color: #fff;
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-right: 1rem;
 
-.submit-button {
-  background-color: $accent-soft-orange;
-  color: white;
-  font-weight: 600;
-  padding: 0.75rem 2rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+    &:hover {
+      background-color: #b89b6a;
+    }
+  }
 
-.submit-button:hover {
-  background-color: $accent-soft-orange-darker;
+  .btn-cancel {
+    color: #666;
+    text-decoration: underline;
+    font-size: 0.95rem;
+
+    &:hover {
+      color: #333;
+    }
+  }
 }

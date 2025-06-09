@@ -31,26 +31,37 @@ class TierListsController < ApplicationController
   end
 
   def edit_tiers
-    # D&D UIに必要な chores と tiers を取得
     @chores = @tier_list.chores
     @tiers = Tier.all.order(:priority)
     @unassigned_chores = @chores.where(tier_id: nil)
   end
 
   def update_tiers
-  chore_updates = params[:chore_updates] || []
+    chore_updates = params[:chore_updates] || []
 
-  ActiveRecord::Base.transaction do
-    chore_updates.each do |update|
-      chore = @tier_list.chores.find(update[:id])
-      chore.update!(tier_id: update[:tier_id])
+    ActiveRecord::Base.transaction do
+      chore_updates.each do |update|
+        chore = @tier_list.chores.find(update[:id])
+        chore.update!(tier_id: update[:tier_id])
+      end
     end
+
+    head :ok
+  rescue ActiveRecord::RecordInvalid => e
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
-  head :ok
-  rescue ActiveRecord::RecordInvalid => e
-  render json: { error: e.message }, status: :unprocessable_entity
+  # ✅ 追加アクションここから
+  def ensure_editable_tier_list
+    tier_list = current_user.created_tier_lists.first
+
+    unless tier_list
+      tier_list = current_user.created_tier_lists.create!(name: "マイティアリスト")
+    end
+
+    redirect_to edit_tiers_tier_list_path(tier_list)
   end
+  # ✅ 追加アクションここまで
 
   private
 
@@ -61,5 +72,4 @@ class TierListsController < ApplicationController
   def tier_list_params
     params.require(:tier_list).permit(:name)
   end
-
 end

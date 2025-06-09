@@ -5,10 +5,10 @@
       <li><%= link_to "📋 家事一覧", "#" %></li>
       <li><%= link_to "➕ 家事を追加", new_chore_path %></li>
        <li>
-        <% if defined?(@selected_tier_list) && @selected_tier_list.present? %>
-          <%= link_to "🗂️ ティアリスト編集", edit_tiers_tier_list_path(@selected_tier_list) %>
+        <% if @selected_tier_list.present? %>
+         <%= link_to "🗂️ ティアリスト編集", edit_tiers_tier_list_path(@selected_tier_list) %>
         <% else %>
-          <%= link_to "🗂️ ティアリスト作成", new_tier_list_path %>
+          <%= button_to "🗂️ ティアリスト編集", ensure_editable_tier_list_tier_lists_path, method: :post, class: "tierlist-fallback-link" %>
         <% end %>
       </li>
       <li><%= link_to "📖 完了履歴", "#" %></li>
