@@ -13,10 +13,13 @@ Rails.application.routes.draw do
     resources :completions, only: [:create]
   end
 
-  resources :tier_lists do
+  resources :tier_lists do 
     member do
       get :edit_tiers      # ティアリスト作成専用画面
       patch :update_tiers  # D&D操作の保存処理など
+    end
+    collection do 
+      post :ensure_editable_tier_list  # マイティアリストを作成して、編集画面にリダイレクト
     end
   end
 

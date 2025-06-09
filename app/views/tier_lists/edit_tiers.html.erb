@@ -1,39 +1,26 @@
-<%= render "shared/tier_list_header" %>
-
-<main class="container">
-  <section class="intro">
-    <h2>家事のティアリストを編集</h2>
-    <p>ドラッグ＆ドロップで家事をティアに分類できます。</p>
-  </section>
-
-  <div class="tier-wrapper">
-    <section class="tiers">
-      <% @tiers.each do |tier| %>
-        <div class="tier tier-<%= tier.name.downcase %>">
-          <div class="tier-label"><%= tier.name %></div>
-          <div class="tier-drop-zone" data-tier-id="<%= tier.id %>">
-            <% tier.chores.each do |chore| %>
-              <div class="chore-card" draggable="true" data-chore-id="<%= chore.id %>">
-                <%= chore.title %>
-              </div>
-            <% end %>
-          </div>
+<div class="tier-edit-wrapper">
+  <div class="unassigned-column">
+    <h3>未割り当ての家事</h3>
+    <div class="tier-drop-zone" data-tier-id="">
+      <% @unassigned_chores.each do |chore| %>
+        <div class="chore-card" draggable="true" data-chore-id="<%= chore.id %>">
+          <%= chore.title %>
         </div>
       <% end %>
-    </section>
-
-    <section class="unassigned-container">
-      <h3>未割り当ての家事</h3>
-      <div class="unassigned-chores tier-drop-zone" id="unassigned-chores">
-        <% @unassigned_chores.each do |chore| %>
-          <div class="chore-card" draggable="true" data-chore-id="<%= chore.id %>">
-            <%= chore.title %>
-          </div>
-        <% end %>
-      </div>
-    </section>
+    </div>
   </div>
-</main>
 
-<%= javascript_include_tag "tier_list_edit" %>
-<%= stylesheet_link_tag "tier_list_edit", media: "all" %>
+  <div class="tiers-vertical">
+    <% @tiers.each do |tier| %>
+      <div class="tier-box">
+        <div class="tier-drop-zone" data-tier-id="<%= tier.id %>">
+          <% @tier_list.chores.where(tier_id: tier.id).each do |chore| %>
+            <div class="chore-card" draggable="true" data-chore-id="<%= chore.id %>">
+              <%= chore.title %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

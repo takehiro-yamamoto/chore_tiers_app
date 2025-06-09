@@ -68,9 +68,22 @@
 
 .main-container {
   display: flex;
+  height: 100vh;
+  background-color: #fffaf4; // サイドバー背景に合わせる
 }
 
 .content {
   flex: 1;
-  padding: 20px;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.tierlist-fallback-link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
 }
