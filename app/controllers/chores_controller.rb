@@ -3,6 +3,21 @@ class ChoresController < ApplicationController
   before_action :set_chore, only: [:show, :edit, :update, :destroy]
   before_action :authorize_user!, only: [:edit, :update, :destroy]
 
+  def index
+  @tier_lists = current_user&.shared_tier_lists || []
+  @selected_tier_list_id = params[:tier_list_id]
+  
+  if @selected_tier_list_id.present?
+    @selected_tier_list = @tier_lists.find_by(id: @selected_tier_list_id)
+    @chores = @selected_tier_list&.chores.includes(:assigned_to, :tier)
+  else
+    # 👇「すべてのティア」のときは、ユーザーが共有されている全ティアリストの家事を表示
+    @chores = Chore.joins(:tier_list_items)
+                   .where(tier_list_items: { tier_list_id: @tier_lists.pluck(:id) })
+                   .includes(:assigned_to, :tier)
+  end
+  end
+
   def new
     @chore = Chore.new
     @tier_lists = TierList.where(user: current_user) 
@@ -11,7 +26,7 @@ class ChoresController < ApplicationController
   end
 
   def create
-  @chore = current_user.assigned_chores.build(chore_params)
+  @chore = current_user.created_chores.build(chore_params)
 
   if @chore.save
     # 👇 tier_id: @chore.tier_id を確実に渡す
@@ -30,9 +45,18 @@ class ChoresController < ApplicationController
 
 
   def destroy
-    @chore = Chore.find(params[:id])
-  @chore.destroy
-  redirect_to edit_tiers_tier_list_path(@chore.tier_list), notice: "家事を削除しました。"
+  @chore = Chore.find(params[:id])
+  tier_list = @chore.tier_list_items.first&.tier_list
+
+  begin
+    @chore.destroy!
+    flash[:notice] = "家事を削除しました。"
+  rescue => e
+    Rails.logger.error("家事削除エラー: #{e.message}")
+    flash[:alert] = "家事の削除に失敗しました: #{e.message}"
+  end
+
+  redirect_to chores_path
   end
 
   def edit
@@ -70,7 +94,7 @@ class ChoresController < ApplicationController
 
   def authorize_user!
     # 例: 作成者か管理者のみ編集可
-    unless current_user == @chore.created_by || current_user.admin?
+    unless current_user == @chore.creator || current_user.admin?
       redirect_to root_path, alert: "権限がありません。"
     end
   end

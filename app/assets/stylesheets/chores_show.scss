@@ -1,210 +1,87 @@
 .chore-detail-container {
-  font-family: 'Noto Sans JP', sans-serif;
-  background-color: #F5F5DC;
-  color: #333;
+  max-width: 960px;
+  margin: 40px auto;
+  background-color: #fffdf5;
+  padding: 24px;
+  border-radius: 12px;
+}
 
-  .chore-header {
-    display: flex;
-    justify-content: space-between;
-    padding: 1rem 2rem;
-    border-bottom: 1px solid #D2B48C;
-    background-color: #fff;
+.chore-header-image {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  height: 240px;
+  background-color: #eaeaea;
 
-    &__logo {
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .chore-header-text {
+    position: absolute;
+    bottom: 16px;
+    left: 24px;
+    color: #fff;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+
+    .chore-title {
+      font-size: 24px;
       font-weight: bold;
-      font-size: 1.2rem;
-      color: #FFB347;
+      color: #fff;
     }
 
-    &__nav a {
-      margin-left: 1rem;
-      color: #333;
-      text-decoration: none;
-
-      &:hover {
-        color: #FFB347;
-      }
+    .chore-subtitle {
+      font-size: 14px;
     }
-  }
-
-  .chore-main {
-    padding: 2rem;
-
-    .chore-hero {
-      position: relative;
-      height: 250px;
-      background-size: cover;
-      background-position: center;
-      margin-bottom: 2rem;
-      border-radius: 10px;
-
-      &__overlay {
-        position: absolute;
-        bottom: 1rem;
-        left: 1rem;
-        color: #fff;
-        background-color: rgba(0, 0, 0, 0.4);
-        padding: 1rem;
-        border-radius: 8px;
-      }
-    }
-
-    .chore-info-box,
-    .chore-history-box {
-      background-color: rgba(210, 180, 140, 0.2);
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-      border-radius: 10px;
-
-      h2 {
-        font-size: 1.4rem;
-        margin-bottom: 1rem;
-      }
-    }
-
-    .chore-info-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-
-      .chore-info-item {
-        flex: 1 1 30%;
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-
-        .tier-label {
-          background-color: #FFB347;
-          color: #fff;
-          padding: 0.2rem 0.8rem;
-          border-radius: 999px;
-          font-weight: bold;
-        }
-
-        .chore-avatar {
-          width: 40px;
-          height: 40px;
-          border-radius: 999px;
-          object-fit: cover;
-        }
-
-        .status-text {
-          color: #FFB347;
-          font-weight: bold;
-        }
-      }
-    }
-
-    .chore-history-box table {
-      width: 100%;
-      border-collapse: collapse;
-
-      th, td {
-        padding: 0.8rem;
-        border-bottom: 1px solid #D2B48C;
-      }
-
-      th {
-        background-color: #D2B48C;
-        color: #fff;
-        text-align: left;
-      }
-    }
-
-    .chore-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 1rem;
-
-      .edit-btn,
-      .delete-btn {
-        padding: 0.6rem 1.4rem;
-        border-radius: 999px;
-        text-decoration: none;
-        font-weight: bold;
-        transition: background 0.2s;
-      }
-
-      .edit-btn {
-        background-color: #FFB347;
-        color: #fff;
-
-        &:hover {
-          background-color: #e6a140;
-        }
-      }
-
-      .delete-btn {
-        background-color: #D2B48C;
-        color: #fff;
-
-        &:hover {
-          background-color: #b98f6a;
-        }
-      }
-    }
-  }
-
-  .chore-footer {
-    text-align: center;
-    padding: 1rem;
-    font-size: 0.9rem;
-    color: #666;
   }
 }
 
-.chore-log-form-box {
-  background-color: rgba(210, 180, 140, 0.2);
-  padding: 1.5rem;
-  border-radius: 10px;
-  margin-bottom: 2rem;
+.chore-info-card {
+  background: #fffef8;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
 
-  h2 {
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
-  }
-
-  .log-form-fields {
+  .chore-info-row {
     display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-
-    .field {
-      flex: 1 1 45%;
-      display: flex;
-      flex-direction: column;
-
-      label {
-        margin-bottom: 0.4rem;
-        font-weight: bold;
-        color: #333;
-      }
-
-      .form-input {
-        padding: 0.6rem;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 1rem;
-      }
+    justify-content: space-between;
+    font-size: 16px;
+    color: #444;
+    span {
+      margin-right: 20px;
     }
   }
+}
 
-  .log-form-actions {
-    margin-top: 1.5rem;
+.chore-log-section {
+  margin-top: 32px;
 
-    .log-submit-btn {
-      padding: 0.6rem 1.6rem;
-      background-color: #FFB347;
-      color: white;
-      font-weight: bold;
-      border: none;
-      border-radius: 999px;
-      cursor: pointer;
-      transition: background 0.2s;
-
-      &:hover {
-        background-color: #e6a140;
-      }
+  .log-table {
+    width: 100%;
+    border-collapse: collapse;
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
     }
+    th {
+      background: #fdf3e3;
+      text-align: left;
+    }
+  }
+}
+
+.chore-actions {
+  text-align: right;
+  margin-top: 20px;
+
+  .btn-edit {
+    background-color: #f4a261;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
   }
 }

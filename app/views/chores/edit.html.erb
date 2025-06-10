@@ -1,69 +1,53 @@
-<%= render "shared/tier_list_header" %>
+<div class="chore-form-container">
+  <h2 class="form-title">家事の編集</h2>
 
-<main class="flex-1 px-8 py-10 bg-base-light-beige">
-  <!-- ヒーローエリア -->
-  <div class="relative w-full h-80 rounded-xl overflow-hidden shadow-2xl mb-8 bg-center bg-cover"
-       style="background-image: url(<%= @chore.background_image_url %>);">
-    <div class="absolute inset-0 bg-black/30"></div>
-    <div class="absolute bottom-0 left-0 p-8 text-white drop-shadow-lg">
-      <h1 class="text-4xl font-bold"><%= @chore.title %></h1>
-      <p class="mt-2 text-lg"><%= @chore.description.presence || "説明がありません" %></p>
-    </div>
-  </div>
-
-  <!-- 編集フォーム -->
-  <div class="bg-subtle-light-brown/30 p-8 rounded-xl shadow-xl mb-8">
-    <%= form_with model: @chore, url: chore_path(@chore), method: :patch, local: true do |f| %>
-      <h2 class="text-2xl font-semibold mb-6 text-heading">家事情報を編集</h2>
-
-      <!-- ティア選択 -->
-      <div class="mb-6">
-        <label for="chore_tier_id" class="block text-base font-medium text-content mb-2">
-          ティア
-        </label>
-        <%= f.select :tier_id, options_for_select(@tiers.map { |t| [t.label, t.id] }, @chore.tier_id),
-                     {}, class: "w-1/3 px-4 py-2 border border-subtle-light-brown rounded-lg" %>
-      </div>
-
-      <!-- 説明欄 -->
-      <div class="mb-6">
-        <label for="chore_description" class="block text-base font-medium text-content mb-2">
-          説明
-        </label>
-        <%= f.text_area :description,
-                        rows: 4,
-                        class: "w-full px-4 py-2 border border-subtle-light-brown rounded-lg",
-                        placeholder: "この家事の詳細を入力してください" %>
-      </div>
-
-      <!-- 保存／キャンセル -->
-      <div class="flex justify-end gap-4">
-        <%= link_to "キャンセル", chores_path, class: "px-6 py-2 rounded-full border border-subtle-light-brown text-heading hover:bg-opacity-80 transition" %>
-        <%= f.submit "保存する", class: "px-6 py-2 rounded-full bg-accent-soft-orange text-white hover:bg-accent-soft-orange-darker transition" %>
-      </div>
-    <% end %>
-  </div>
-
-  <!-- 完了履歴はそのままテーブル表示 -->
-  <div class="bg-subtle-light-brown/30 p-8 rounded-xl shadow-xl">
-    <h2 class="text-2xl font-semibold mb-6 text-heading">完了履歴</h2>
-    <div class="overflow-x-auto rounded-lg border border-subtle-light-brown">
-      <table class="min-w-full">
-        <thead class="bg-subtle-light-brown/50">
-          <tr>
-            <th class="px-6 py-4 text-left text-sm font-semibold uppercase">日付</th>
-            <th class="px-6 py-4 text-left text-sm font-semibold uppercase">ノート</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-subtle-light-brown">
-        <% @chore.completion_logs.order(completed_at: :desc).each do |log| %>
-          <tr>
-            <td class="px-6 py-4 text-sm text-content"><%= log.completed_at.to_date %></td>
-            <td class="px-6 py-4 text-sm text-content"><%= log.note %></td>
-          </tr>
+  <% if @chore.errors.any? %>
+    <div class="form-errors">
+      <h4>以下のエラーがあります：</h4>
+      <ul>
+        <% @chore.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
         <% end %>
-        </tbody>
-      </table>
+      </ul>
     </div>
+  <% end %>
+
+  <%= form_with(model: @chore, local: true) do |f| %>
+    <!-- ※ ティアリスト選択は非表示 -->
+
+    <div class="form-group">
+      <%= f.label :title, "家事タイトル" %>
+      <%= f.text_field :title, class: "input-title" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :description, "詳細説明" %>
+      <%= f.text_area :description, rows: 4, class: "input-description" %>
+    </div>
+
+    <div class="form-flex-group">
+      <div class="form-half">
+        <%= f.label :assigned_to_id, "担当者" %>
+        <%= f.collection_select :assigned_to_id, User.all, :id, :name, prompt: "選択してください", class: "input-select" %>
+      </div>
+
+      <div class="form-half">
+        <%= f.label :tier_id, "ティア" %>
+        <%= f.collection_select :tier_id, Tier.all, :id, :label, prompt: "選択してください", class: "input-select" %>
+      </div>
+    </div>
+
+    <div class="form-button-group">
+      <%= f.submit "更新する", class: "btn-submit" %>
+      <%= link_to "キャンセル", chores_path, class: "btn-cancel" %>
+    </div>
+  <% end %>
+
+  <!-- 🔥 削除ボタン：フォーム外に配置 -->
+  <div class="form-button-group">
+    <%= button_to "この家事を削除", chore_path(@chore),
+                  method: :delete,
+                  data: { confirm: "本当に削除しますか？この操作は取り消せません。" },
+                  class: "btn-cancel" %>
   </div>
-</main>
+</div>

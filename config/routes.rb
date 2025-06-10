@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :chores, only: [:new, :create, :destroy, :show, :edit,:update] do
+  resources :chores, only: [:index, :new, :create, :destroy, :show, :edit,:update] do
     resources :completions, only: [:create]
   end
 
