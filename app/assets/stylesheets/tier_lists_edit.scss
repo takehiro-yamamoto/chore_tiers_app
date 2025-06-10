@@ -141,3 +141,84 @@
   background-color: #eef6ff;
   border-color: #4a90e2;
 }
+
+/* ティア選択セクション */
+.tier-selector {
+  margin: 0 auto 24px;
+  text-align: center;
+
+  label {
+    font-weight: bold;
+    margin-right: 8px;
+    color: #5c4835;
+  }
+
+  .tier-select {
+    padding: 6px 12px;
+    border: 1px solid #d2b48c;
+    border-radius: 6px;
+    font-size: 16px;
+  }
+}
+
+.tier-sharing-container {
+  background-color: #fffaf4;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 24px;
+  margin: 32px auto;
+  max-width: 600px;
+
+  .section-heading {
+    font-size: 18px;
+    margin-bottom: 16px;
+    color: #5c4835;
+  }
+
+  .share-form {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+
+    .share-label {
+      font-weight: bold;
+    }
+
+    .share-input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .share-button {
+      background-color: #a5743b;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  }
+
+  .member-list {
+    list-style: none;
+    padding-left: 0;
+
+    .member-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #ddd;
+
+      .member-remove {
+        background-color: #ccc;
+        border: none;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        cursor: pointer;
+      }
+    }
+  }
+}

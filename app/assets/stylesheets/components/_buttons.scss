@@ -1,0 +1,14 @@
+.btn-small {
+  display: inline-block;
+  background-color: #d2b48c;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #b8956a;
+  }
+}

@@ -16,11 +16,13 @@
  *= require application
  */
 // ページ単位
+@import "tier_lists_new";
 @import "tier_lists_edit";
 @import "chores_new";
 @import "chores_show";
 @import "devise/registrations";
 @import "devise/sessions";
+@import "components/buttons";
 
 // ダッシュボード用コンポーネント
 @import "components/summary_cards";

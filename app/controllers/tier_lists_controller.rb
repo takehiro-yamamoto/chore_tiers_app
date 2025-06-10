@@ -1,5 +1,5 @@
 class TierListsController < ApplicationController
-  before_action :set_tier_list, only: [:show, :edit, :update, :edit_tiers, :update_tiers]
+  before_action :set_tier_list, only: [:show, :edit, :update, :edit_tiers, :update_tiers, :destroy]
 
   def index
     @tier_lists = current_user.shared_tier_lists + current_user.created_tier_lists # すべてのTierListを取得
@@ -12,7 +12,7 @@ class TierListsController < ApplicationController
   def create
     @tier_list = current_user.created_tier_lists.build(tier_list_params) # 現在のユーザーに紐づけて新しいTierListを作成
     if @tier_list.save 
-      redirect_to @tier_list # 保存に成功した場合、TierListの詳細ページへリダイレクト
+      redirect_to edit_tiers_tier_list_path(@tier_list) # ✅ ティア編集画面に遷移
     else
       render :new # 保存に失敗した場合、新規作成フォームを再表示
     end
@@ -25,9 +25,18 @@ class TierListsController < ApplicationController
   end
 
   def update
+  if @tier_list.update(tier_list_params)
+    redirect_to edit_tiers_tier_list_path(@tier_list), notice: "ティアリスト名を更新しました。"
+  else
+    flash.now[:alert] = "更新に失敗しました。"
+    render :edit, status: :unprocessable_entity
+  end
   end
 
+
   def destroy
+  @tier_list.destroy
+  redirect_to root_path, notice: "ティアリストを削除しました。"
   end
 
   def edit_tiers
