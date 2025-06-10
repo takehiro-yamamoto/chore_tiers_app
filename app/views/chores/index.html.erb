@@ -1,4 +1,33 @@
-<div>
-  <h1 class="font-bold text-4xl">Chores#index</h1>
-  <p>Find me in app/views/chores/index.html.erb</p>
+<div class="chore-list-container">
+  <h1 class="chore-list-header">家事リスト</h1>
+
+  <div class="filter-section">
+    <%= form_with url: chores_path, method: :get, local: true do %>
+      <label for="tier_list_id">ティアリストを選択</label>
+      <%= select_tag :tier_list_id,
+            options_for_select(@tier_lists.map { |t| [t.name, t.id] }, @selected_tier_list_id),
+            prompt: "すべてのティア", class: "tier-select" %>
+      <%= submit_tag "表示", class: "filter-btn" %>
+    <% end %>
+  </div>
+
+  <% if @chores.present? %>
+    <% @chores.each do |chore| %>
+      <div class="chore-card">
+        <div class="chore-header">
+          <h2 class="chore-title"><%= chore.title %></h2>
+          <span class="tier-label tier-<%= tier_priority_label(chore.tier&.priority).downcase %>">Tier <%= tier_priority_label(chore.tier&.priority) %></span>
+        </div>
+        <p class="chore-description"><%= chore.description.presence || "（説明なし）" %></p>
+        <p class="chore-tierlist-name">ティアリスト: <%= chore.tier_list_items.first&.tier_list&.name || "不明" %></p>
+        <p class="chore-assignee">担当：<%= chore.assigned_to&.name || "未設定" %></p>
+        <div class="chore-actions">
+          <%= link_to "詳細", chore_path(chore), class: "btn btn-outline" %>
+          <%= link_to "編集", edit_chore_path(chore), class: "btn btn-outline" %>
+        </div>
+      </div>
+    <% end %>
+  <% elsif @selected_tier_list_id.present? %>
+    <p>このティアリストには家事が登録されていません。</p>
+  <% end %>
 </div>
