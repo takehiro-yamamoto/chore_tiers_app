@@ -11,20 +11,23 @@ class ChoresController < ApplicationController
   end
 
   def create
-    @chore = current_user.assigned_chores.build(chore_params)
+  @chore = current_user.assigned_chores.build(chore_params)
 
-    if @chore.save
-      TierListItem.create!(
-        chore: @chore,
-        tier_list_id: params[:tier_list_id],
-        tier_id: params[:tier_id]
-      )
-      redirect_to root_path, notice: "家事を登録しました。"
-    else
-      @tier_lists = current_user.shared_tier_lists
-      render :new, status: :unprocessable_entity
-    end
+  if @chore.save
+    # 👇 tier_id: @chore.tier_id を確実に渡す
+    TierListItem.create!(
+      chore: @chore,
+      tier_list_id: params[:tier_list_id],
+      tier_id: @chore.tier_id
+    )
+
+    redirect_to edit_tiers_tier_list_path(params[:tier_list_id]), notice: "家事を登録しました。"
+  else
+    @tier_lists = current_user.shared_tier_lists
+    render :new, status: :unprocessable_entity
   end
+  end
+
 
   def destroy
     @chore = Chore.find(params[:id])

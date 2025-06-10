@@ -40,18 +40,20 @@ class DashboardsController < ApplicationController
       tier_items = @selected_tier_list.tier_list_items.includes(:tier, :chore)
 
       # ✅ ティア別に家事アイテムをグループ化（表示用）
-      @tier_items_by_rank = tier_items.group_by { |item| item.tier.label }
+      @tier_items_by_rank = tier_items.group_by { |item| item.tier&.label || "未割り当て" }
 
       # ✅ ティア別の完了状況（S〜Dランク単位でカウント）
-      @tier_completion_stats = tier_items.group_by { |item| item.tier }.transform_values do |items|
-        total = items.count
-        completed = items.count { |i| i.chore&.completed? }
-        percent = total > 0 ? ((completed.to_f / total) * 100).round(1) : 0.0
+      @tier_completion_stats = tier_items
+       .select { |item| item.tier.present? }
+       .group_by { |item| item.tier }
+       .transform_values do |items|
+          total = items.count
+          completed = items.count { |i| i.chore&.completed? }
+          percent = total > 0 ? ((completed.to_f / total) * 100).round(1) : 0.0
 
-        { total: total, completed: completed, percent: percent }
+          { total: total, completed: completed, percent: percent }
       end
-     
-      
+
       # ティア別の完了状況（S〜Dランク単位でカウント）
       @tier_completion_data = @tier_completion_stats.map do |tier, stats|
       {
