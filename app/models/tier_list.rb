@@ -5,5 +5,13 @@ class TierList < ApplicationRecord
   has_many :tier_list_memberships, dependent: :destroy
   has_many :members, through: :tier_list_memberships, source: :user
 
+  before_create :generate_invite_token
+
   validates :name, presence: true
+
+   private
+
+  def generate_invite_token
+    self.invite_token ||= SecureRandom.urlsafe_base64(16)
+  end
 end
