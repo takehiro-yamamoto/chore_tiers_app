@@ -1,4 +1,52 @@
-<div>
-  <h1 class="font-bold text-4xl">TierLists#edit</h1>
-  <p>Find me in app/views/tier_lists/edit.html.erb</p>
+<div class="tier-list-form-container">
+  <h2>ティアリストの編集</h2>
+
+  <%= form_with(model: @tier_list, local: true) do |f| %>
+    <div class="form-group">
+      <%= f.label :name, "ティアリスト名" %>
+      <%= f.text_field :name, class: "input-text" %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit "更新する", class: "btn-submit" %>
+    </div>
+  <% end %>
+
+  <hr>
+
+  <%= button_to "このティアリストを削除", tier_list_path(@tier_list),
+                method: :delete,
+                data: { confirm: "本当に削除しますか？この操作は取り消せません。" },
+                class: "btn-cancel" %>
 </div>
+<!-- ✅ 共有ユーザーセクション -->
+<div class="tier-sharing-container">
+  <h3 class="section-heading">このティアリストを共有</h3>
+
+  <!-- 共有ユーザー追加フォーム -->
+  <%= form_with url: tier_list_memberships_path, method: :post, local: true do |f| %>
+    <%= hidden_field_tag :tier_list_id, @tier_list.id %>
+
+    <div class="share-form">
+      <%= label_tag :email, "メールアドレスで追加", class: "share-label" %>
+      <%= email_field_tag :email, nil, required: true, class: "share-input" %>
+      <%= f.submit "追加", class: "share-button" %>
+    </div>
+  <% end %>
+
+  <!-- 現在の共有メンバー表示 -->
+  <ul class="member-list">
+    <% @tier_list.members.each do |member| %>
+      <li class="member-item">
+        <span><%= member.name %>（<%= member.email %>）</span>
+        <% if member != current_user %>
+          <%= button_to "削除", tier_list_membership_path(@tier_list.tier_list_memberships.find_by(user: member)),
+                        method: :delete,
+                        data: { confirm: "このユーザーとの共有を解除しますか？" },
+                        class: "member-remove" %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+

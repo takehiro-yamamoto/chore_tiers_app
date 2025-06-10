@@ -23,4 +23,6 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :tier_list_memberships, only: [:create, :destroy]
+
 end
