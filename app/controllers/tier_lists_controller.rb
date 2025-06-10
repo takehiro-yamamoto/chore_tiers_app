@@ -91,6 +91,29 @@ end
     redirect_to edit_tiers_tier_list_path(tier_list)
   end
   
+  def accept_invite
+  if !user_signed_in?
+    session[:pending_invite_token] = params[:token]
+    redirect_to new_user_session_path, alert: "ログイン後に招待が完了します。"
+    return
+  end
+
+  @tier_list = TierList.find_by(invite_token: params[:token])
+
+  if @tier_list.nil?
+    redirect_to root_path, alert: "招待リンクが無効です。"
+    return
+  end
+
+  if @tier_list.members.include?(current_user)
+    redirect_to edit_tiers_tier_list_path(@tier_list), notice: "すでにこのティアリストに参加しています。"
+    return
+  end
+
+  @tier_list.tier_list_memberships.create!(user: current_user)
+  redirect_to edit_tiers_tier_list_path(@tier_list), notice: "ティアリストに参加しました。"
+  end
+
 
   private
 

@@ -25,4 +25,8 @@ Rails.application.routes.draw do
 
   resources :tier_list_memberships, only: [:create, :destroy]
 
+  resources :tier_lists do 
+  get 'invite/:token', to: 'tier_lists#accept_invite', on: :collection, as: 'accept_invite'
+  end
+
 end

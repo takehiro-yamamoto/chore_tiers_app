@@ -23,19 +23,16 @@
 <div class="tier-sharing-container">
   <h3 class="section-heading">このティアリストを共有</h3>
 
-  <!-- 共有ユーザー追加フォーム -->
-  <%= form_with url: tier_list_memberships_path, method: :post, local: true do |f| %>
-    <%= hidden_field_tag :tier_list_id, @tier_list.id %>
-
-    <div class="share-form">
-      <%= label_tag :email, "メールアドレスで追加", class: "share-label" %>
-      <%= email_field_tag :email, nil, required: true, class: "share-input" %>
-      <%= f.submit "追加", class: "share-button" %>
-    </div>
-  <% end %>
+  <p>このティアリストを共有するには、以下のリンクをコピーして共有してください：</p>
+  <div class="invite-copy-box">
+    <input type="text" id="invite-link" value="<%= accept_invite_tier_lists_url(token: @tier_list.invite_token) %>" readonly class="invite-input" />
+    <button id="copy-button" class="btn-small">招待リンクをコピー</button>
+  </div>
+  <p id="copy-success" class="copy-message" style="display: none;">コピーしました！</p>
 
   <!-- 現在の共有メンバー表示 -->
   <ul class="member-list">
+    <p>共有メンバー一覧</p>
     <% @tier_list.members.each do |member| %>
       <li class="member-item">
         <span><%= member.name %>（<%= member.email %>）</span>
@@ -50,3 +47,34 @@
   </ul>
 </div>
 
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const copyButton = document.getElementById("copy-button");
+    const inviteInput = document.getElementById("invite-link");
+    const successMsg = document.getElementById("copy-success");
+
+    if (copyButton && inviteInput) {
+      copyButton.addEventListener("click", () => {
+        inviteInput.select();
+        document.execCommand("copy");
+
+        successMsg.style.display = "inline";
+        setTimeout(() => {
+          successMsg.style.display = "none";
+        }, 1500);
+      });
+    }
+  });
+</script>
+
+ <%# メールアドレス共有の場合の設定 %>
+ <%# <!-- 共有ユーザー追加フォーム -->
+  <%= form_with url: tier_list_memberships_path, method: :post, local: true do |f| %>
+    <%# <%= hidden_field_tag :tier_list_id, @tier_list.id %>
+
+    <%# <div class="share-form">
+      <%= label_tag :email, "メールアドレスで追加", class: "share-label" %>
+      <%# <%= email_field_tag :email, nil, required: true, class: "share-input" %>
+      <%# <%= f.submit "追加", class: "share-button" %>
+    <%# </div> %>
+  <%# <% end %>

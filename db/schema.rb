@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_06_09_122218) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_10_063356) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -89,7 +89,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_09_122218) do
     t.bigint "creator_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "invite_token"
     t.index ["creator_id"], name: "index_tier_lists_on_creator_id"
+    t.index ["invite_token"], name: "index_tier_lists_on_invite_token", unique: true
   end
 
   create_table "tiers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
