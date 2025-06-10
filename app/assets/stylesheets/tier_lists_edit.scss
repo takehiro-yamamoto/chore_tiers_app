@@ -1,62 +1,143 @@
-.tier-edit-wrapper {
+.tier-editor-container {
   display: flex;
+  gap: 24px;
   padding: 20px;
+}
+
+/* 未割り当てエリア */
+.unassigned-area {
+  width: 260px;
   background-color: #fffaf4;
-  gap: 20px;
-}
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 
-.unassigned-column {
-  width: 250px;
-  flex-shrink: 0;
-  background-color: #fff8e7;
-  border: 2px dashed #d2b48c;
-  border-radius: 6px;
-  padding: 10px;
-
-  h3 {
+  .section-title {
+    font-size: 18px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 16px;
+    text-align: center;
   }
 
-  .tier-drop-zone {
-    min-height: 400px;
-    padding: 10px;
+  .unassigned-zone {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: flex-start;
+  }
+
+  .chore-card {
+    width: 100px;
+    height: 60px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 10px;
+    font-size: 14px;
+    cursor: grab;
+
+    .card-title {
+      font-weight: 500;
+    }
+
+    .card-icon {
+      font-size: 16px;
+      color: #888;
+    }
   }
 }
 
-.tiers-vertical {
+/* ティアリストエリア */
+.tier-list-area {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  flex-grow: 1;
+
+  .tier-box {
+    background-color: #f4faff;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    min-height: 120px;
+    padding: 0;
+
+    .tier-label {
+      width: 60px;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-weight: bold;
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+    }
+
+    .tier-s { background-color: #f77; }
+    .tier-a { background-color: #f8b84e; }
+    .tier-b { background-color: #f2dd50; color: #333; }
+    .tier-c { background-color: #6fd388; }
+    .tier-d { background-color: #5b9ded; }
+
+    .tier-drop-zone {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 12px;
+      min-height: 120px;
+      border: 2px dashed #bbb;
+      border-radius: 6px;
+      background-color: #fcfcfc;
+    }
+
+    .chore-card {
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 6px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      height: 44px;
+
+      .card-title {
+        font-weight: 500;
+      }
+
+      .card-icon {
+        font-size: 16px;
+        color: #888;
+      }
+    }
+  }
 }
 
-.tier-box {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 10px;
+/* 保存ボタン */
+.tier-save-button {
+  margin-top: 24px;
+  text-align: right;
+
+  button {
+    background-color: #a5743b;
+    color: white;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+  }
 }
 
-.tier-drop-zone {
-  min-height: 100px;
-  background-color: #fffef8;
-  padding: 10px;
-  border-radius: 4px;
-  border: 1px dashed #ccc;
-}
-
+/* ドラッグオーバー用のスタイル */
 .tier-drop-zone.drag-over {
-  background-color: #e6f7ff;
-  border: 2px dashed #66afe9;
+  background-color: #eef6ff;
+  border-color: #4a90e2;
 }
-
-.chore-card {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  padding: 8px;
-  margin-bottom: 6px;
-  border-radius: 4px;
-  cursor: grab;
-}
-

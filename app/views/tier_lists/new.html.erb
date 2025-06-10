@@ -1,4 +1,12 @@
-<div>
-  <h1 class="font-bold text-4xl">TierLists#new</h1>
-  <p>Find me in app/views/tier_lists/new.html.erb</p>
-</div>
+<h2>新しいティアリストの作成</h2>
+
+<%= form_with(model: @tier_list, local: true) do |f| %>
+  <div>
+    <%= f.label :name, "ティアリスト名" %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.submit "作成する" %>
+  </div>
+<% end %>

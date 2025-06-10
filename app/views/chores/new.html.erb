@@ -13,6 +13,14 @@
   <% end %>
 
   <%= form_with(model: @chore, local: true) do |f| %>
+    <!-- 🆕 ティアリスト選択 -->
+    <div class="tier-list-select-group">
+      <%= label_tag :tier_list_id, "ティアリスト" %>
+      <%= select_tag :tier_list_id,
+          options_from_collection_for_select(current_user.created_tier_lists, :id, :name),
+          prompt: "選択してください",
+          class: "tier-list-select" %>
+    </div>
     <div class="form-group">
       <%= f.label :title, "家事タイトル" %>
       <%= f.text_field :title, class: "input-title" %>

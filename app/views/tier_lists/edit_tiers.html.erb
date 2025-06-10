@@ -1,22 +1,29 @@
-<div class="tier-edit-wrapper">
-  <div class="unassigned-column">
-    <h3>未割り当ての家事</h3>
-    <div class="tier-drop-zone" data-tier-id="">
+<h2 class="page-title">ティアリスト編集</h2>
+
+<div class="tier-editor-container">
+  <!-- 左：未割り当てカード -->
+  <div class="unassigned-area">
+    <h3 class="section-title">未割り当て</h3>
+    <div class="unassigned-zone tier-drop-zone" data-tier-id="">
       <% @unassigned_chores.each do |chore| %>
         <div class="chore-card" draggable="true" data-chore-id="<%= chore.id %>">
-          <%= chore.title %>
+          <div class="card-title"><%= chore.title %></div>
+          <div class="card-icon">📅</div>
         </div>
       <% end %>
     </div>
   </div>
 
-  <div class="tiers-vertical">
+  <!-- 右：ティアリスト -->
+  <div class="tier-list-area">
     <% @tiers.each do |tier| %>
-      <div class="tier-box">
+      <div class="tier-box" data-tier-id="<%= tier.id %>">
+        <div class="tier-label tier-<%= tier.label.downcase %>"><%= tier.label %></div>
         <div class="tier-drop-zone" data-tier-id="<%= tier.id %>">
-          <% @tier_list.chores.where(tier_id: tier.id).each do |chore| %>
-            <div class="chore-card" draggable="true" data-chore-id="<%= chore.id %>">
-              <%= chore.title %>
+          <% @tier_list_items.select { |item| item.tier_id == tier.id }.each do |item| %>
+            <div class="chore-card" draggable="true" data-chore-id="<%= item.chore.id %>">
+              <div class="card-title"><%= item.chore.title %></div>
+              <div class="card-icon">📅</div>
             </div>
           <% end %>
         </div>
@@ -24,3 +31,9 @@
     <% end %>
   </div>
 </div>
+
+<div class="tier-save-button">
+  <button id="save-tier-updates">保存する</button>
+</div>
+
+<%= javascript_include_tag "tier_list_edit", "data-turbo-track": "reload" %>
