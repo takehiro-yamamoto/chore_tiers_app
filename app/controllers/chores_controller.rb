@@ -26,7 +26,7 @@ class ChoresController < ApplicationController
   end
 
   def create
-  @chore = current_user.assigned_chores.build(chore_params)
+  @chore = current_user.created_chores.build(chore_params)
 
   if @chore.save
     # 👇 tier_id: @chore.tier_id を確実に渡す
@@ -45,9 +45,18 @@ class ChoresController < ApplicationController
 
 
   def destroy
-    @chore = Chore.find(params[:id])
-  @chore.destroy
-  redirect_to edit_tiers_tier_list_path(@chore.tier_list), notice: "家事を削除しました。"
+  @chore = Chore.find(params[:id])
+  tier_list = @chore.tier_list_items.first&.tier_list
+
+  begin
+    @chore.destroy!
+    flash[:notice] = "家事を削除しました。"
+  rescue => e
+    Rails.logger.error("家事削除エラー: #{e.message}")
+    flash[:alert] = "家事の削除に失敗しました: #{e.message}"
+  end
+
+  redirect_to chores_path
   end
 
   def edit
@@ -85,7 +94,7 @@ class ChoresController < ApplicationController
 
   def authorize_user!
     # 例: 作成者か管理者のみ編集可
-    unless current_user == @chore.created_by || current_user.admin?
+    unless current_user == @chore.creator || current_user.admin?
       redirect_to root_path, alert: "権限がありません。"
     end
   end

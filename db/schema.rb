@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_06_10_063356) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_10_135532) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -47,7 +47,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_10_063356) do
     t.boolean "completed"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
     t.index ["assigned_to_id"], name: "index_chores_on_assigned_to_id"
+    t.index ["created_by_id"], name: "index_chores_on_created_by_id"
     t.index ["tier_id"], name: "index_chores_on_tier_id"
   end
 
@@ -120,7 +122,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_10_063356) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "chores", "tiers"
   add_foreign_key "chores", "users", column: "assigned_to_id"
-  add_foreign_key "completion_logs", "chores"
+  add_foreign_key "chores", "users", column: "created_by_id"
+  add_foreign_key "completion_logs", "chores", on_delete: :cascade
   add_foreign_key "completion_logs", "users"
   add_foreign_key "tier_list_items", "chores"
   add_foreign_key "tier_list_items", "tier_lists"
