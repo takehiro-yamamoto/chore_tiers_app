@@ -1,87 +1,50 @@
-<%# app/views/chores/show.html.erb %>
 <div class="chore-detail-container">
-  <header class="chore-header">
-    <div class="chore-header__logo">ふたりの家事</div>
-    <nav class="chore-header__nav">
-      <%= link_to "ホーム", root_path %>
-      <%= link_to "ティアリスト", tier_lists_path %>
-      <%= link_to "家事一覧", chores_path %>
-      <%= link_to "設定", "#" %>
-    </nav>
-  </header>
 
-  <main class="chore-main">
-    <div class="chore-hero" style="background-image: url(<%= asset_path('sample_bg.jpg') %>)">
-      <div class="chore-hero__overlay">
-        <h1><%= @chore.title %></h1>
-        <p><%= @chore.description.presence || "家事に関する情報を表示します。" %></p>
+  <!-- ヘッダー画像・タイトル -->
+  <div class="chore-header">
+    <div class="chore-header-image">
+      <img src="<%= asset_path('sample_chore.jpg') %>" alt="家事画像">
+      <div class="chore-header-text">
+        <h2 class="chore-title"><%= @chore.title %></h2>
+        <p class="chore-subtitle"><%= @chore.description.presence || "この家事に関する情報を表示します。" %></p>
       </div>
     </div>
+  </div>
 
-    <section class="chore-info-box">
-      <h2>詳細情報</h2>
-      <div class="chore-info-grid">
-        <div class="chore-info-item">
-          <span>ティア:</span>
-          <div class="tier-label"><%= @chore.tier&.label || "-" %></div>
-        </div>
-        <div class="chore-info-item">
-          <span>担当:</span>
-          <div class="chore-assignee">
-            <%= image_tag("avatar_placeholder.png", class: "chore-avatar") %>
-            <p><%= @chore.assigned_to&.name || "未設定" %></p>
-          </div>
-        </div>
-        <div class="chore-info-item">
-          <span>完了状態:</span>
-          <p class="status-text"><%= @chore.completed? ? "完了" : "未完了" %></p>
-        </div>
-      </div>
-    </section>
-
-    <section class="chore-history-box">
-      <section class="chore-log-form-box">
-        <h2>完了ログを追加</h2>
-         <%= form_with model: [@chore, CompletionLog.new], local: true do |f| %>
-        <div class="log-form-fields">
-         <div class="field">
-           <%= f.label :completed_at, "完了日" %>
-           <%= f.date_field :completed_at, class: "form-input" %>
-        </div>
-         <div class="field">
-           <%= f.label :note, "ノート" %>
-           <%= f.text_field :note, class: "form-input" %>
-         </div>
-        </div>
-       <div class="log-form-actions">
-         <%= f.submit "登録", class: "log-submit-btn" %>
-       </div>
-      <% end %>
-      </section>
-
-      <h2>完了履歴</h2>
-      <table>
-        <thead>
-          <tr><th>日付</th><th>ノート</th></tr>
-        </thead>
-        <tbody>
-          <% @chore.completion_logs.order(completed_at: :desc).each do |log| %>
-            <tr>
-              <td><%= l(log.completed_at.to_date) %></td>
-              <td><%= log.note.presence || "なし" %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </section>
-
-    <div class="chore-actions">
-      <%= link_to "編集", edit_chore_path(@chore), class: "edit-btn" %>
-      <%= link_to "削除", chore_path(@chore), data: { turbo_method: :delete, confirm: "本当に削除しますか？" }, class: "delete-btn" %>
+  <!-- 詳細情報カード -->
+  <div class="chore-info-card">
+    <h3>詳細情報</h3>
+    <div class="chore-info-row">
+      <span>★ ティア：<%= tier_priority_label(@chore.tier&.priority) %></span>
+      <span>👤 担当：<%= @chore.assigned_to&.name || "未設定" %></span>
+      <span>🕒 完了状態：<%= @chore.completed? ? "完了" : "未完了" %></span>
     </div>
-  </main>
+  </div>
 
-  <footer class="chore-footer">
-    <p>© 2024 </p>
-  </footer>
+  <!-- 完了履歴テーブル -->
+  <div class="chore-log-section">
+    <h3>完了履歴</h3>
+    <table class="log-table">
+      <thead>
+        <tr>
+          <th>日付</th>
+          <th>ノート</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @chore.completion_logs.order(completed_at: :desc).each do |log| %>
+          <tr>
+            <td><%= l(log.completed_at.to_date, format: :long) %></td>
+            <td><%= log.note %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 編集ボタン -->
+  <div class="chore-actions">
+    <%= link_to "編集", edit_chore_path(@chore), class: "btn-edit" %>
+  </div>
+
 </div>
