@@ -102,6 +102,38 @@ class DashboardsController < ApplicationController
     (start_day..end_day).to_a
     end
 
+    if view_mode == "month"
+  start_day = base_date.beginning_of_month
+  end_day = base_date.end_of_month
+
+  first_wday = start_day.wday
+  calendar_days = []
+
+  # 前月の日付
+  if first_wday > 0
+    prev_month_last_day = start_day - 1
+    (first_wday).times do |i|
+      calendar_days << prev_month_last_day - (first_wday - 1 - i)
+    end
+  end
+
+  # 今月
+  (start_day..end_day).each { |date| calendar_days << date }
+
+  # 翌月
+  last_wday = end_day.wday
+  if last_wday < 6
+    (6 - last_wday).times do |i|
+      calendar_days << end_day + i + 1
+    end
+  end
+
+  @calendar_days = calendar_days
+else
+  # 週表示は既存の @calendar_range のまま利用
+  @calendar_days = @calendar_range
+end
+
     # カレンダー表示用（予定家事）
     @calendar_chores = Chore
       .includes(:assigned_to, :tier) # 家事の詳細情報を含める
