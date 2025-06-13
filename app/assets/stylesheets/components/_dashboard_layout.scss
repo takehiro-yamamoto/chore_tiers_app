@@ -1,49 +1,139 @@
 .dashboard-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1.5rem;
+  width: 100%;
+  max-width: none;
+  margin: 0 ;
+  padding: 1rem 0.5rem;  // ← 左右の余白を1rem → 0.5remに
+  background-color: #fffaf4;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-/* グリッド構造 */
-.grid {
-  display: grid;
+
+
+  .summary-card {
+    flex: 1;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    min-height: auto;         // ← 高さを最小にする
+    height: auto;
+    display: flex;            // 中身の中央揃え
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+/* 中央：カレンダー */
+.calendar-section-wide {
+  width: 100%;           // ← 画面幅に対して最大に
+  max-width: 800px;      // ← 幅を制限
+  margin: 0;        // ← 中央寄せ
+  padding: 1rem 1rem;    // ← 内側はそのまま自然な余白
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
 }
 
-.grid-cols-12 {
-  grid-template-columns: repeat(12, 1fr);
+/* ティアラベル色分け */
+.dashboard-tier-list .tier-label {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 50%;
+  margin-right: 1rem;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+
+  &.s { background-color: #ff6347; }
+  &.a { background-color: #ffa500; }
+  &.b { background-color: #32cd32; }
+  &.c { background-color: #1e90ff; }
+  &.d { background-color: #9370db; }
 }
 
-.col-span-3 {
-  grid-column: span 3;
+.dashboard-calendar-row {
+  width: 80%;
+  grid-column: 1 / -1; // グリッド内であれば全幅指定
+  background-color: #ffffff;
+  padding: 0.5rem;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
 }
 
-.col-span-6 {
-  grid-column: span 6;
+.dashboard-calendar-row {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  margin-bottom: 2rem;
 }
 
-.gap-6 {
+.dashboard-calendar-row {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+.dashboard-calendar-row > :first-child {
+  flex: 5 1 0;
+  min-width: 0;
+}
+
+/* ラッパーで右側を縦積みに */
+.tierlist-with-progress {
+  flex: 5 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
 }
 
-/* 縦方向スペース */
-.space-y-6 > * + * {
-  margin-top: 1.5rem;
-}
-
-/* Flexユーティリティ */
-.flex {
+.dashboard-stats-row {
   display: flex;
+  gap: 2.5rem;
+  margin-bottom: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(160,140,90,0.08);
+  padding: 1.8rem 1.4rem 1.4rem 1.4rem;
+  align-items: stretch;
+  width: 100%;
+}
+.dashboard-stats-row > * {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
 }
 
-.items-center {
-  align-items: center;
+/* 各カラムの幅指定 */
+.upcoming-summary-col {
+  flex: 1.2 1 0;
+  min-width: 340px;
+}
+.user-chart-col {
+  flex: 2.2 1 0;     // ← ここだけ大きく！
+  min-width: 420px;
+}
+.recent-logs-col {
+  flex: 1.2 1 0;
+  min-width: 320px;
 }
 
-.justify-between {
-  justify-content: space-between;
+@media (max-width: 1200px) {
+  .dashboard-stats-row {
+    flex-direction: column;
+    gap: 1.1rem;
+    padding: 1.2rem 0.7rem;
+  }
+  .dashboard-stats-row > * {
+    min-width: 0 !important;
+    width: 100% !important;
+  }
 }
 
-/* 中央寄せ用 */
-.text-center {
-  text-align: center;
-}

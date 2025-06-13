@@ -58,3 +58,40 @@
     }
   }
 }
+
+.dashboard-tier-list {
+  .tier-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+
+    .tier-label {
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      font-weight: bold;
+      border-radius: 50%;
+      background-color: #d2b48c;
+      color: #fff;
+      margin-right: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .chore-list {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .chore-item {
+      background-color: #fffaf4;
+      padding: 5px 10px;
+      border-radius: 5px;
+      border: 1px solid #d2b48c;
+    }
+  }
+}
