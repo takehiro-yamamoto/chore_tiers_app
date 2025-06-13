@@ -9,24 +9,24 @@ class DashboardsController < ApplicationController
       }.freeze
 
       TIER_ORDER = ["S", "A", "B", "C", "D"]
-      
+
   before_action :authenticate_user! # ユーザー認証を確認
 
   def index
     
     @user = current_user # 現在のユーザーを取得
     @tier_lists = @user.shared_tier_lists + @user.created_tier_lists # ユーザーが作成したティアリストと共有されたティアリストを取得
+    @selected_tier_list = @tier_lists.first
     
     # ユーザーの家事一覧（自分が担当のもの）
     @tiers = Tier.order(:priority)
 
     # 担当家事
-    @chores = Chore.where(assigned_to: @user)
+    @chores = @selected_tier_list ? @selected_tier_list.chores : Chore.none
 
     # 自分が担当している chore をティア別に分類
-    @chore_items_by_tier = Chore.where(assigned_to: @user)
-                                .includes(:tier)
-                                .group_by(&:tier_id)
+    @chore_items_by_tier = @selected_tier_list ? @selected_tier_list.chores.includes(:tier).group_by(&:tier_id) : {}
+
 
     # サマリー用（必要に応じて）
     @all_chores_count = @user.assigned_chores.count
@@ -35,7 +35,7 @@ class DashboardsController < ApplicationController
 
     # ティアリスト（作成＋共有）
     @tier_lists = @user.created_tier_lists + @user.shared_tier_lists
-    @selected_tier_list = @tier_lists.first
+    
     
     
     # ティア別の家事分類
