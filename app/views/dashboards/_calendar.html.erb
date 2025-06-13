@@ -9,10 +9,18 @@
     </div>
 
     <div class="calendar-navigation">
-      <%= link_to "＜", dashboards_path(date: @display_date.prev_month, view: @view_mode), data: { turbo_frame: "calendar" }, class: "calendar-arrow" %>
-      <p class="calendar-month"><%= @display_date.strftime("%Y年 %-m月") %></p>
-      <%= link_to "＞", dashboards_path(date: @display_date.next_month, view: @view_mode), data: { turbo_frame: "calendar" }, class: "calendar-arrow" %>
-    </div>
+  <% if @view_mode == "week" %>
+    <% prev_date = @display_date - 7 %>
+    <% next_date = @display_date + 7 %>
+  <% else %>
+    <% prev_date = @display_date.prev_month %>
+    <% next_date = @display_date.next_month %>
+  <% end %>
+
+  <%= link_to "＜", dashboards_path(date: prev_date, view: @view_mode), data: { turbo_frame: "calendar" }, class: "calendar-arrow" %>
+  <p class="calendar-month"><%= @display_date.strftime("%Y年 %-m月") %></p>
+  <%= link_to "＞", dashboards_path(date: next_date, view: @view_mode), data: { turbo_frame: "calendar" }, class: "calendar-arrow" %>
+</div>
 
     <div class="calendar-weekdays">
       <% %w[日 月 火 水 木 金 土].each_with_index do |day, i| %>
