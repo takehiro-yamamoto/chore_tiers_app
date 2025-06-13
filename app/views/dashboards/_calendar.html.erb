@@ -33,36 +33,41 @@
     <% start_date = @display_date.beginning_of_week(:sunday) %>
     <% end_date = @display_date.end_of_week(:sunday) %>
     <% (start_date..end_date).each do |date| %>
-      <% is_selected = params[:selected] == date.to_s || (!params[:selected] && date == Date.current) %>
-      <div class="calendar-cell <%= 'today' if date == Date.current %> <%= 'selected' if is_selected %>">
-        <%= link_to date.day, dashboards_path(date: @display_date, view: @view_mode, selected: date), data: { turbo_frame: "calendar" }, class: "calendar-date-link" %>
-        <% chores = @calendar_chores.select { |c| c.created_at.to_date == date } %>
-        <% if chores.any? %>
-          <div class="calendar-dots">
-            <% chores.each do |chore| %>
-              <div class="calendar-dot" title="<%= chore.title %>"></div>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
-    <% end %>
+  <% is_selected = params[:selected] == date.to_s || (!params[:selected] && date == Date.current) %>
+  <%= link_to dashboards_path(date: @display_date, view: @view_mode, selected: date), data: { turbo_frame: "calendar" }, class: "calendar-cell-link" do %>
+    <div class="calendar-cell <%= 'today' if date == Date.current %> <%= 'selected' if is_selected %>">
+      <span class="calendar-date"><%= date.day %></span>
+      <% chores = @calendar_chores.select { |c| c.created_at.to_date == date } %>
+      <% if chores.any? %>
+        <div class="calendar-dots">
+          <% chores.each do |chore| %>
+            <div class="calendar-dot" title="<%= chore.title %>"></div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+  
   <% else %>
     <% @calendar_days.each do |date| %>
-      <% is_selected = params[:selected] == date.to_s || (!params[:selected] && date == Date.current) %>
-      <% is_other_month = date.month != @display_date.month %>
-      <div class="calendar-cell <%= 'other-month' if is_other_month %> <%= 'today' if date == Date.current %> <%= 'selected' if is_selected %>">
-        <%= link_to date.day, dashboards_path(date: @display_date, view: @view_mode, selected: date), data: { turbo_frame: "calendar" }, class: "calendar-date-link" %>
-        <% chores = @calendar_chores.select { |c| c.created_at.to_date == date } %>
-        <% if chores.any? %>
-          <div class="calendar-dots">
-            <% chores.each do |chore| %>
-              <div class="calendar-dot" title="<%= chore.title %>"></div>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
-    <% end %>
+  <% is_selected = params[:selected] == date.to_s || (!params[:selected] && date == Date.current) %>
+  <% is_other_month = date.month != @display_date.month %>
+  <%= link_to dashboards_path(date: @display_date, view: @view_mode, selected: date), data: { turbo_frame: "calendar" }, class: "calendar-cell-link" do %>
+    <div class="calendar-cell <%= 'other-month' if is_other_month %> <%= 'today' if date == Date.current %> <%= 'selected' if is_selected %>">
+      <span class="calendar-date"><%= date.day %></span>
+      <% chores = @calendar_chores.select { |c| c.created_at.to_date == date } %>
+      <% if chores.any? %>
+        <div class="calendar-dots">
+          <% chores.each do |chore| %>
+            <div class="calendar-dot" title="<%= chore.title %>"></div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
   <% end %>
+  <% end %>
+<% end %>
 </div>
 
     <div class="calendar-today-detail">
