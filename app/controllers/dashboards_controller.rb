@@ -1,12 +1,15 @@
 class DashboardsController < ApplicationController
   # ティア別の完了状況（S〜Dランク単位でカウント）
       TIER_COLORS = {
-      "S" => "#FFB347",
-      "A" => "#FFC872",
-      "B" => "#FFDAB3",
-      "C" => "#FFEBCD",
-      "D" => "#FFF5E6"
+      "S" => "#ff6b6b",
+      "A" => "#ffc04d",
+      "B" => "#ffe066",
+      "C" => "#70d68a",
+      "D" => "#5eb0ef"
       }.freeze
+
+      TIER_ORDER = ["S", "A", "B", "C", "D"]
+      
   before_action :authenticate_user! # ユーザー認証を確認
 
   def index
@@ -55,6 +58,7 @@ class DashboardsController < ApplicationController
       end
 
       # ティア別の完了状況（S〜Dランク単位でカウント）
+
       @tier_completion_data = @tier_completion_stats.map do |tier, stats|
       {
       label: tier.label,
@@ -64,6 +68,7 @@ class DashboardsController < ApplicationController
       total: stats[:total]
       }
       end
+      @tier_completion_data.sort_by! { |data| TIER_ORDER.index(data[:label]) || 99 }
 
 
     else

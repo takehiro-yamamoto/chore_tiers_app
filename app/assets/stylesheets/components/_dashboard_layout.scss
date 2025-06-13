@@ -36,26 +36,22 @@
 }
 
 /* ティアラベル色分け */
-.dashboard-tier-list .tier-label {
+.dashboard-tier-list .tier-label,
+.tier-progress .tier-label {
   width: 30px;
   height: 30px;
   line-height: 30px;
   text-align: center;
   font-weight: bold;
-  border-radius: 50%;
+  border-radius: 8px;
   margin-right: 1rem;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  color: white;
-
-  &.s { background-color: #ff6347; }
-  &.a { background-color: #ffa500; }
-  &.b { background-color: #32cd32; }
-  &.c { background-color: #1e90ff; }
-  &.d { background-color: #9370db; }
+  color: #fff;
+  font-size: 1.15rem;
+  /* ベース設定 */
 }
-
 .dashboard-calendar-row {
   width: 80%;
   grid-column: 1 / -1; // グリッド内であれば全幅指定
