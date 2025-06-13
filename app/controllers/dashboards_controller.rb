@@ -16,7 +16,12 @@ class DashboardsController < ApplicationController
     
     @user = current_user # 現在のユーザーを取得
     @tier_lists = @user.shared_tier_lists + @user.created_tier_lists # ユーザーが作成したティアリストと共有されたティアリストを取得
-    @selected_tier_list = @tier_lists.first
+    @selected_tier_list = if params[:tier_list_id].present?
+     @tier_lists.find { |t| t.id == params[:tier_list_id].to_i }
+    else
+     @tier_lists.first
+    end
+    
     
     # ユーザーの家事一覧（自分が担当のもの）
     @tiers = Tier.order(:priority)

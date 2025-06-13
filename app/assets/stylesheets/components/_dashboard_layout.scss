@@ -133,3 +133,18 @@
   }
 }
 
+.tier-list-select-form {
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  label {
+    font-weight: bold;
+  }
+  select {
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    border: 1px solid #d2b48c;
+    font-size: 1rem;
+  }
+}

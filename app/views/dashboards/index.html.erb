@@ -1,3 +1,12 @@
+<div class="tier-list-select-form">
+  <%= form_with url: dashboards_path, method: :get, local: true, data: { turbo_frame: "dashboard" } do %>
+    <label for="tier_list_id">ティアリストを選択：</label>
+    <%= select_tag :tier_list_id,
+          options_from_collection_for_select(@tier_lists, :id, :name, @selected_tier_list&.id),
+          onchange: "this.form.submit();" %>
+  <% end %>
+</div>
+
 <div class="dashboard-container">
 
   <!-- カレンダー（最上段へ移動） -->
