@@ -6,6 +6,9 @@
   </div>
   <div class="user-area">
     <% if user_signed_in? %>
+      <span class="user-name">
+        <%= current_user.name %>さん
+      </span>
       <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "logout-btn" %>
     <% end %>
   </div>
