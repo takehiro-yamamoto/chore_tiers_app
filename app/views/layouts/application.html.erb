@@ -11,12 +11,15 @@
   </head>
 
   <body>
-    <%= render 'layouts/header' %>
-    <div class="main-container">
+  <%= render 'layouts/header' %>
+  <div class="main-container">
+    <% unless devise_controller? && (controller_name == "sessions" || controller_name == "registrations") %>
       <%= render 'layouts/sidebar' %>
-      <main class="content">
-        <%= yield %>
-      </main>
-    </div>
+    <% end %>
+    <main class="content">
+      <%= yield %>
+    </main>
+  </div>
   </body>
+  
 </html>
