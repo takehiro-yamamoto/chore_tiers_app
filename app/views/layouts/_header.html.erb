@@ -5,12 +5,8 @@
     <% end %>
   </div>
   <div class="user-area">
-    <div class="user-menu">
-      <span class="user-icon">👤</span>
-      <ul class="dropdown-menu">
-        <li><%= link_to "プロフィール", "#" %></li>
-        <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></li>
-      </ul>
-    </div>
+    <% if user_signed_in? %>
+      <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "logout-btn" %>
+    <% end %>
   </div>
 </header>

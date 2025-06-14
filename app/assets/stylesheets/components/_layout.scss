@@ -87,3 +87,20 @@
   text-decoration: none;
   cursor: pointer;
 }
+
+.logout-btn {
+  padding: 0.4rem 1.2rem;
+  background: #fff;
+  color: #a0522d;
+  border-radius: 6px;
+  font-weight: bold;
+  border: 1.5px solid #a0522d;
+  margin-left: 1.2rem;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: background 0.2s;
+  &:hover {
+    background: #ffe4c4;
+    color: #8b4513;
+  }
+}
