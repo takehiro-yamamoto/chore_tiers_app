@@ -9,10 +9,18 @@
     </div>
 
     <div class="calendar-navigation">
-      <%= link_to "＜", dashboards_path(date: @display_date.prev_month, view: @view_mode), data: { turbo_frame: "calendar" }, class: "calendar-arrow" %>
-      <p class="calendar-month"><%= @display_date.strftime("%Y年 %-m月") %></p>
-      <%= link_to "＞", dashboards_path(date: @display_date.next_month, view: @view_mode), data: { turbo_frame: "calendar" }, class: "calendar-arrow" %>
-    </div>
+  <% if @view_mode == "week" %>
+    <% prev_date = @display_date - 7 %>
+    <% next_date = @display_date + 7 %>
+  <% else %>
+    <% prev_date = @display_date.prev_month %>
+    <% next_date = @display_date.next_month %>
+  <% end %>
+
+  <%= link_to "＜", dashboards_path(date: prev_date, view: @view_mode), data: { turbo_frame: "calendar" }, class: "calendar-arrow" %>
+  <p class="calendar-month"><%= @display_date.strftime("%Y年 %-m月") %></p>
+  <%= link_to "＞", dashboards_path(date: next_date, view: @view_mode), data: { turbo_frame: "calendar" }, class: "calendar-arrow" %>
+</div>
 
     <div class="calendar-weekdays">
       <% %w[日 月 火 水 木 金 土].each_with_index do |day, i| %>
@@ -21,30 +29,46 @@
     </div>
 
     <div class="calendar-grid">
-      <% if @view_mode == "week" %>
-        <% start_date = @display_date.beginning_of_week(:sunday) %>
-        <% end_date = @display_date.end_of_week(:sunday) %>
-      <% else %>
-        <% start_date = @display_date.beginning_of_month.beginning_of_week(:sunday) %>
-        <% end_date = @display_date.end_of_month.end_of_week(:sunday) %>
-      <% end %>
-
-      <% (start_date..end_date).each do |date| %>
-        <% next if @view_mode == "month" && date.month != @display_date.month %>
-        <% is_selected = params[:selected] == date.to_s || (!params[:selected] && date == Date.current) %>
-        <div class="calendar-cell <%= 'today' if date == Date.current %> <%= 'selected' if is_selected %>">
-          <%= link_to date.day, dashboards_path(date: @display_date, view: @view_mode, selected: date), data: { turbo_frame: "calendar" }, class: "calendar-date-link" %>
-          <% chores = @calendar_chores.select { |c| c.created_at.to_date == date } %>
-          <% if chores.any? %>
-            <div class="calendar-dots">
-              <% chores.each do |chore| %>
-                <div class="calendar-dot" title="<%= chore.title %>"></div>
-              <% end %>
-            </div>
+  <% if @view_mode == "week" %>
+    <% start_date = @display_date.beginning_of_week(:sunday) %>
+    <% end_date = @display_date.end_of_week(:sunday) %>
+    <% (start_date..end_date).each do |date| %>
+  <% is_selected = params[:selected] == date.to_s || (!params[:selected] && date == Date.current) %>
+  <%= link_to dashboards_path(date: @display_date, view: @view_mode, selected: date), data: { turbo_frame: "calendar" }, class: "calendar-cell-link" do %>
+    <div class="calendar-cell <%= 'today' if date == Date.current %> <%= 'selected' if is_selected %>">
+      <span class="calendar-date"><%= date.day %></span>
+      <% chores = @calendar_chores.select { |c| c.created_at.to_date == date } %>
+      <% if chores.any? %>
+        <div class="calendar-dots">
+          <% chores.each do |chore| %>
+            <div class="calendar-dot" title="<%= chore.title %>"></div>
           <% end %>
         </div>
       <% end %>
     </div>
+  <% end %>
+<% end %>
+  
+  <% else %>
+    <% @calendar_days.each do |date| %>
+  <% is_selected = params[:selected] == date.to_s || (!params[:selected] && date == Date.current) %>
+  <% is_other_month = date.month != @display_date.month %>
+  <%= link_to dashboards_path(date: @display_date, view: @view_mode, selected: date), data: { turbo_frame: "calendar" }, class: "calendar-cell-link" do %>
+    <div class="calendar-cell <%= 'other-month' if is_other_month %> <%= 'today' if date == Date.current %> <%= 'selected' if is_selected %>">
+      <span class="calendar-date"><%= date.day %></span>
+      <% chores = @calendar_chores.select { |c| c.created_at.to_date == date } %>
+      <% if chores.any? %>
+        <div class="calendar-dots">
+          <% chores.each do |chore| %>
+            <div class="calendar-dot" title="<%= chore.title %>"></div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+  <% end %>
+<% end %>
+</div>
 
     <div class="calendar-today-detail">
       <% selected_day = params[:selected] ? Date.parse(params[:selected]) : Date.current %>

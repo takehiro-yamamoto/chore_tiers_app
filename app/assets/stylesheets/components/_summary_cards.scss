@@ -1,36 +1,45 @@
-.summary-card-grid {
+.summary-cards-row {
   display: flex;
-  justify-content: space-between;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  gap: 1.2rem;
+  align-items: stretch;
+  margin-bottom: 1.2rem;
 }
-
 .summary-card {
-  flex: 1;
-  padding: 1.5rem;
-  background-color: #fff;
-  border: 2px solid #D2B48C;
-  border-radius: 0.75rem;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-
-  .label {
-    font-size: 1.1rem;
-    color: #5C4033;
-    margin-bottom: 0.5rem;
-  }
-
-  .count {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #5C4033;
-
-    &.completed {
-      color: #FFB347;
-    }
-
-    &.pending {
-      color: #D2691E;
-    }
-  }
+  background: #fffaf4;
+  border: 1px solid #eddcc2;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(180,130,60,0.05);
+  padding: 0.4rem 1.1rem 1.1rem 1.1rem;
+  min-width: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Noto Sans JP', sans-serif;
 }
+.summary-label {
+  writing-mode: vertical-rl;     // ← 縦書き
+  color: #7a6242;
+  font-size: 1.03rem;
+  font-weight: bold;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.3rem;
+  margin-top: 0.2rem;
+}
+.summary-count {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ff9800;              // オレンジ
+  line-height: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.summary-unit {
+  font-size: 1rem;
+  font-weight: normal;
+  color: #b98346;
+  margin-top: 0.1em;
+}
+.summary-card.completed .summary-count { color: #ff9800; }
+.summary-card.incomplete .summary-count { color: #ff9800; }
+.summary-card.all .summary-count { color: #795548; }

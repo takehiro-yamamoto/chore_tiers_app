@@ -1,32 +1,34 @@
+<div class="tier-list-select-form">
+  <%= form_with url: dashboards_path, method: :get, local: true, data: { turbo_frame: "dashboard" } do %>
+    <label for="tier_list_id">ティアリストを選択：</label>
+    <%= select_tag :tier_list_id,
+          options_from_collection_for_select(@tier_lists, :id, :name, @selected_tier_list&.id),
+          onchange: "this.form.submit();" %>
+  <% end %>
+</div>
 
-<div class="w-full max-w-screen-xl mx-auto px-4 py-6 space-y-6 overflow-hidden">
+<div class="dashboard-container">
 
-  <!-- サマリーカード -->
-  <%= render "summary_cards" %>
-
-  <!-- ティアリスト -->
-  <%= render "tier_list" %>
-
-  <!-- ティア別進捗 -->
-  <%= render "tier_progress" %>
-
-  <!-- 今週の予定サマリー -->
-  <%= render "upcoming_summary" %>
-
-  <!-- カレンダー（横幅広く） -->
-  <div class="w-full">
-    <%= render "calendar" %>
+  <!-- カレンダー（最上段へ移動） -->
+  <div class="dashboard-calendar-row">
+  <%= render 'calendar' %>
+  <div class="tierlist-with-progress">
+    <%= render 'tier_list' %>
+    <%= render 'tier_progress' %>
   </div>
+</div>
 
-  <!-- ✅ ユーザー別グラフ＆完了履歴（横並び） -->
-  <div class="grid grid-cols-2 gap-4 h-64">
-    <%= render "user_chart" %>
-    <%= render "recent_logs" %>
+ <!-- ダッシュボードの統計情報 -->
+ <div class="dashboard-stats-row">
+  <div class="upcoming-summary-col">
+    <%= render 'upcoming_summary' %>
   </div>
+  <div class="user-chart-col">
+    <%= render 'user_chart' %>
+  </div>
+  <div class="recent-logs-col">
+    <%= render 'recent_logs' %>
+  </div>
+</div>
 
-  <!-- 新規家事作成ボタン -->
-  <%= render "new_chore_button" %>
-
-  <!-- 未完了家事リンク -->
-  <%= render "link_to_incomplete" %>
 </div>

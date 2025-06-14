@@ -1,29 +1,37 @@
 class DashboardsController < ApplicationController
   # ティア別の完了状況（S〜Dランク単位でカウント）
       TIER_COLORS = {
-      "S" => "#FFB347",
-      "A" => "#FFC872",
-      "B" => "#FFDAB3",
-      "C" => "#FFEBCD",
-      "D" => "#FFF5E6"
+      "S" => "#ff6b6b",
+      "A" => "#ffc04d",
+      "B" => "#ffe066",
+      "C" => "#70d68a",
+      "D" => "#5eb0ef"
       }.freeze
+
+      TIER_ORDER = ["S", "A", "B", "C", "D"]
+
   before_action :authenticate_user! # ユーザー認証を確認
 
   def index
     
     @user = current_user # 現在のユーザーを取得
     @tier_lists = @user.shared_tier_lists + @user.created_tier_lists # ユーザーが作成したティアリストと共有されたティアリストを取得
+    @selected_tier_list = if params[:tier_list_id].present?
+     @tier_lists.find { |t| t.id == params[:tier_list_id].to_i }
+    else
+     @tier_lists.first
+    end
+    
     
     # ユーザーの家事一覧（自分が担当のもの）
     @tiers = Tier.order(:priority)
 
     # 担当家事
-    @chores = Chore.where(assigned_to: @user)
+    @chores = @selected_tier_list ? @selected_tier_list.chores : Chore.none
 
     # 自分が担当している chore をティア別に分類
-    @chore_items_by_tier = Chore.where(assigned_to: @user)
-                                .includes(:tier)
-                                .group_by(&:tier_id)
+    @chore_items_by_tier = @selected_tier_list ? @selected_tier_list.chores.includes(:tier).group_by(&:tier_id) : {}
+
 
     # サマリー用（必要に応じて）
     @all_chores_count = @user.assigned_chores.count
@@ -32,7 +40,7 @@ class DashboardsController < ApplicationController
 
     # ティアリスト（作成＋共有）
     @tier_lists = @user.created_tier_lists + @user.shared_tier_lists
-    @selected_tier_list = @tier_lists.first
+    
     
     
     # ティア別の家事分類
@@ -55,6 +63,7 @@ class DashboardsController < ApplicationController
       end
 
       # ティア別の完了状況（S〜Dランク単位でカウント）
+
       @tier_completion_data = @tier_completion_stats.map do |tier, stats|
       {
       label: tier.label,
@@ -64,6 +73,7 @@ class DashboardsController < ApplicationController
       total: stats[:total]
       }
       end
+      @tier_completion_data.sort_by! { |data| TIER_ORDER.index(data[:label]) || 99 }
 
 
     else
@@ -96,6 +106,38 @@ class DashboardsController < ApplicationController
     end_day = base_date.end_of_month
     (start_day..end_day).to_a
     end
+
+    if view_mode == "month"
+  start_day = base_date.beginning_of_month
+  end_day = base_date.end_of_month
+
+  first_wday = start_day.wday
+  calendar_days = []
+
+  # 前月の日付
+  if first_wday > 0
+    prev_month_last_day = start_day - 1
+    (first_wday).times do |i|
+      calendar_days << prev_month_last_day - (first_wday - 1 - i)
+    end
+  end
+
+  # 今月
+  (start_day..end_day).each { |date| calendar_days << date }
+
+  # 翌月
+  last_wday = end_day.wday
+  if last_wday < 6
+    (6 - last_wday).times do |i|
+      calendar_days << end_day + i + 1
+    end
+  end
+
+  @calendar_days = calendar_days
+else
+  # 週表示は既存の @calendar_range のまま利用
+  @calendar_days = @calendar_range
+end
 
     # カレンダー表示用（予定家事）
     @calendar_chores = Chore

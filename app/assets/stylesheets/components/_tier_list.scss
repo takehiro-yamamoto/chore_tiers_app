@@ -21,18 +21,20 @@
   }
 
   .tier-label {
-    text-align: center;
-    font-weight: bold;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.375rem;
-    color: #fff;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 8px;
+  margin-right: 1rem;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.15rem;
+}
 
-    &.s { background-color: #FFB347; }
-    &.a { background-color: #FFC872; color: #5D4037; }
-    &.b { background-color: #FFDAB3; color: #5D4037; }
-    &.c { background-color: #FFEBCD; color: #5D4037; }
-    &.d { background-color: #FFF5E6; color: #5D4037; }
-  }
+
 
   .chore-list {
     display: flex;
@@ -58,3 +60,45 @@
     }
   }
 }
+
+.dashboard-tier-list {
+  .tier-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+
+    .tier-label {
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      font-weight: bold;
+      border-radius: 50%;
+      // background-color: #d2b48c;
+      // color: #fff;
+      margin-right: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .chore-list {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .chore-item {
+      background-color: #fffaf4;
+      padding: 5px 10px;
+      border-radius: 5px;
+      border: 1px solid #d2b48c;
+    }
+  }
+}
+.tier-label.最高    { background: #ff6b6b !important;    color: #fff !important; }
+.tier-label.高    { background: #ffc04d !important;    color: #fff !important; }
+.tier-label.中    { background: #ffe066 !important;    color: #222 !important; }
+.tier-label.低    { background: #70d68a !important;    color: #fff !important; }
+.tier-label.最低    { background: #5eb0ef !important;    color: #fff !important; }
