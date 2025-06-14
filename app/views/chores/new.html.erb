@@ -12,15 +12,20 @@
     </div>
   <% end %>
 
-  <%= form_with(model: @chore, local: true) do |f| %>
-    <!-- 🆕 ティアリスト選択 -->
-    <div class="tier-list-select-group">
+  <!-- ティアリスト選択フォーム（GETでnew再描画） -->
+  <div class="tier-list-select-group">
+    <%= form_with url: new_chore_path, method: :get, local: true do %>
       <%= label_tag :tier_list_id, "ティアリスト" %>
       <%= select_tag :tier_list_id,
-          options_from_collection_for_select(current_user.created_tier_lists, :id, :name),
+          options_from_collection_for_select(@tier_lists, :id, :name, @selected_tier_list&.id),
           prompt: "選択してください",
-          class: "tier-list-select" %>
-    </div>
+          class: "tier-list-select",
+          onchange: "this.form.submit();" %>
+    <% end %>
+  </div>
+
+  <!-- 家事登録フォーム -->
+  <%= form_with(model: @chore, url: chores_path(tier_list_id: @selected_tier_list&.id), local: true) do |f| %>
     <div class="form-group">
       <%= f.label :title, "家事タイトル" %>
       <%= f.text_field :title, class: "input-title" %>
@@ -34,12 +39,12 @@
     <div class="form-flex-group">
       <div class="form-half">
         <%= f.label :assigned_to_id, "担当者" %>
-        <%= f.collection_select :assigned_to_id, User.all, :id, :name, prompt: "選択してください", class: "input-select" %>
+        <%= f.collection_select :assigned_to_id, @users, :id, :name, prompt: "選択してください", class: "input-select" %>
       </div>
 
       <div class="form-half">
         <%= f.label :tier_id, "ティア" %>
-        <%= f.collection_select :tier_id, Tier.all, :id, :label, prompt: "選択してください", class: "input-select" %>
+        <%= f.collection_select :tier_id, @tiers, :id, :label, prompt: "選択してください", class: "input-select" %>
       </div>
     </div>
 

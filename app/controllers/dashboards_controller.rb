@@ -15,7 +15,8 @@ class DashboardsController < ApplicationController
   def index
     
     @user = current_user # 現在のユーザーを取得
-    @tier_lists = @user.shared_tier_lists + @user.created_tier_lists # ユーザーが作成したティアリストと共有されたティアリストを取得
+    @tier_lists = (@user.shared_tier_lists + @user.created_tier_lists).uniq { |t| t.id }
+ # ユーザーが作成したティアリストと共有されたティアリストを取得
     @selected_tier_list = if params[:tier_list_id].present?
      @tier_lists.find { |t| t.id == params[:tier_list_id].to_i }
     else
@@ -37,12 +38,7 @@ class DashboardsController < ApplicationController
     @all_chores_count = @user.assigned_chores.count
     @completed_chores_count = @user.assigned_chores.where(completed: true).count
     @incomplete_chores_count = @all_chores_count - @completed_chores_count
-
-    # ティアリスト（作成＋共有）
-    @tier_lists = @user.created_tier_lists + @user.shared_tier_lists
-    
-    
-    
+   
     # ティア別の家事分類
     if @selected_tier_list
       tier_items = @selected_tier_list.tier_list_items.includes(:tier, :chore)
