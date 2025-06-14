@@ -3,9 +3,9 @@
   <%= form_with url: "", method: :get, local: true do %>
     <label for="tier_list_id">ティアリストを選択：</label>
     <%= select_tag :tier_list_id,
-        options_from_collection_for_select(current_user.shared_tier_lists + current_user.created_tier_lists, :id, :name, @tier_list.id),
-        onchange: "this.form.action = '/tier_lists/' + this.value + '/edit_tiers'; this.form.submit();",
-        class: "tier-select" %>
+    options_from_collection_for_select(@tier_lists, :id, :name, @tier_list.id),
+    onchange: "this.form.action = '/tier_lists/' + this.value + '/edit_tiers'; this.form.submit();",
+    class: "tier-select" %>
   <% end %>
 </div>
 <div class="tier-list-tools">

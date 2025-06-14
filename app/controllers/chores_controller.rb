@@ -4,17 +4,19 @@ class ChoresController < ApplicationController
   before_action :authorize_user!, only: [:edit, :update, :destroy]
 
   def index
-    @tier_lists = current_user.shared_tier_lists + current_user.created_tier_lists
-    @selected_tier_list_id = params[:tier_list_id]
-    if @selected_tier_list_id.present?
-      @selected_tier_list = @tier_lists.find_by(id: @selected_tier_list_id)
-      @chores = @selected_tier_list&.chores.includes(:assigned_to, :tier)
-    else
-      @chores = Chore.joins(:tier_list_items)
-                     .where(tier_list_items: { tier_list_id: @tier_lists.pluck(:id) })
-                     .includes(:assigned_to, :tier)
-    end
+  @tier_lists = (current_user.shared_tier_lists + current_user.created_tier_lists).uniq { |t| t.id }
+  @selected_tier_list_id = params[:tier_list_id]
+
+  if @selected_tier_list_id.present?
+    @selected_tier_list = @tier_lists.find { |t| t.id == @selected_tier_list_id.to_i }
+    @chores = @selected_tier_list ? @selected_tier_list.chores.includes(:assigned_to, :tier) : Chore.none
+  else
+    # すべてのティアリストの家事を表示
+    @chores = Chore.joins(:tier_list_items)
+                   .where(tier_list_items: { tier_list_id: @tier_lists.pluck(:id) })
+                   .includes(:assigned_to, :tier)
   end
+end
 
   def new
     @tier_lists = (current_user.created_tier_lists + current_user.shared_tier_lists).uniq

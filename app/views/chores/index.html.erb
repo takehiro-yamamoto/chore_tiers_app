@@ -5,8 +5,9 @@
     <%= form_with url: chores_path, method: :get, local: true do %>
       <label for="tier_list_id">ティアリストを選択</label>
       <%= select_tag :tier_list_id,
-            options_for_select(@tier_lists.map { |t| [t.name, t.id] }, @selected_tier_list_id),
-            prompt: "すべてのティアリスト", class: "tier-select" %>
+      options_from_collection_for_select(@tier_lists, :id, :name, @selected_tier_list_id),
+      prompt: "すべてのティアリスト",
+      class: "tier-select" %>
       <%= submit_tag "表示", class: "filter-btn" %>
     <% end %>
   </div>

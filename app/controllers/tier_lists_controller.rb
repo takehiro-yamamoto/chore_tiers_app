@@ -2,7 +2,7 @@ class TierListsController < ApplicationController
   before_action :set_tier_list, only: [:show, :edit, :update, :edit_tiers, :update_tiers, :destroy]
 
   def index
-    @tier_lists = current_user.shared_tier_lists + current_user.created_tier_lists # すべてのTierListを取得
+    @tier_lists = (current_user.shared_tier_lists + current_user.created_tier_lists).uniq { |t| t.id } # すべてのTierListを取得
   end
 
   def new
@@ -43,7 +43,7 @@ class TierListsController < ApplicationController
     @chores = @tier_list.chores # ここで@choresを取得
     @tiers = Tier.all.order(:priority) # すべてのTierを取得し、優先度でソート
     @tier_list_items = @tier_list.tier_list_items.includes(:chore, :tier) # タスクとTierを含むTierListItemsを取得
-
+    @tier_lists = (current_user.shared_tier_lists + current_user.created_tier_lists).uniq { |t| t.id }
     @unassigned_chores = @tier_list.tier_list_items 
     .where(tier_id: nil)
     .includes(:chore)
@@ -71,7 +71,6 @@ class TierListsController < ApplicationController
         )
       end
 
-      # 🔁 chore.tier_id を同期（表示用に必要なら）
       chore.update!(tier_id: new_tier_id)
     end
   end
