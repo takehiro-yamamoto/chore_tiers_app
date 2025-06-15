@@ -37,6 +37,29 @@
       </div>
     </div>
 
+     <div class="field-group">
+      <%= f.label :frequency_type, "実施頻度" %><br>
+      <%= f.select :frequency_type,
+            options_for_select([["毎日", "daily"], ["毎週", "weekly"], ["単発（1回のみ）", "once"]],
+            @chore.frequency_type),
+            prompt: "選択してください",
+            id: "frequency_type_select" %>
+    </div>
+
+    <div class="field-group" id="weekly_days_section">
+      <%= f.label :frequency_days, "実施曜日（毎週）" %><br>
+      <% %w[mon tue wed thu fri sat sun].each do |day| %>
+        <label>
+          <%= check_box_tag "chore[frequency_days][]", day, @chore.frequency_days&.include?(day) %>
+          <%= day.capitalize %>
+        </label>
+      <% end %>
+    </div>
+
+    <div class="field-group" id="once_date_section">
+      <%= f.label :scheduled_date, "実施日（単発）" %><br>
+      <%= f.date_field :scheduled_date %>
+    </div>
     <div class="form-button-group">
       <%= f.submit "更新する", class: "btn-submit" %>
       <%= link_to "キャンセル", chores_path, class: "btn-cancel" %>
