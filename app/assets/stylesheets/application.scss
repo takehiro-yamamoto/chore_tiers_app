@@ -94,3 +94,76 @@
   border-radius: 50%;
 }
 
+// ✅ 全体フォームレイアウト
+.field-group {
+  margin-bottom: 2rem;
+}
+
+// ✅ 実施頻度セレクトボックス前の余白（担当者との間にスペース）
+#frequency_type_select {
+  margin-top: 1.2rem;
+  width: 280px; // 🔼 サイズを少し大きく
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #fffaf4;
+}
+
+// ✅ 曜日チェックボックス群（1行表示＋中央寄せ）
+#weekly_days_section {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: start;
+  flex-wrap: nowrap;
+  gap: 1.2rem;
+}
+
+#weekly_days_section label {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: #5c4835;
+}
+
+#weekly_days_section input[type="checkbox"] {
+  margin-left: 0.3rem;
+  transform: scale(1.2);
+}
+
+// ✅ 単発の日付入力
+#once_date_section input[type="date"] {
+  padding: 0.5rem;
+  font-size: 1rem;
+  width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+#weekly_days_section,
+#once_date_section {
+  display: none; // JSで必要時に表示される
+}
+
+// ✅ 実施頻度セレクトボックスのサイズ拡大
+#chore_frequency_type {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #ffffff;
+  color: #333;
+  appearance: none;
+}
+
+label[for="chore_frequency_type"] {
+  font-size: 1rem;
+  font-weight: bold;
+  display: block;
+  margin-top: 1rem; // ← 上にゆとり追加
+  margin-bottom: 0.4rem;
+  color: #5c4835;
+}

@@ -23,3 +23,30 @@
   font-size: 1.5rem;
   color: #FFB347;
 }
+
+.recent-logs-col {
+  flex: 1 1 100%;
+ 
+
+  .recent-log-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0.2rem;
+    border: 1px solid #d2b48c;
+    background-color: #fff9f0;
+    border-radius: 6px;
+    font-size: 0.95rem;
+
+    .chore-name {
+      font-weight: bold;
+      color: #5D4037;
+    }
+
+    .completed-time {
+      color: #7A6C5D;
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+  }
+}

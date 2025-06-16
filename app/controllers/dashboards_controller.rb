@@ -128,10 +128,11 @@ class DashboardsController < ApplicationController
     @calendar_chores = if @selected_tier_list
       @selected_tier_list.chores
         .includes(:assigned_to, :tier)
-        .where(created_at: @calendar_range.first.beginning_of_day..@calendar_range.last.end_of_day)
+        .select { |chore| @calendar_range.any? { |d| chore.scheduled_for?(d) } }
     else
       Chore.none
     end
+
 
     # ---- 今週の家事（選択ティアリストのみ） ----
     @upcoming_week_range = Date.today.beginning_of_week..Date.today.end_of_week
@@ -158,9 +159,16 @@ class DashboardsController < ApplicationController
     end
 
     # 最新完了履歴（5件：グローバル）
-    @completion_logs = CompletionLog.includes(:chore, :user)
-                                    .order(completed_at: :desc)
-                                    .limit(5)
+    if @selected_tier_list
+      chore_ids = @selected_tier_list.chores.pluck(:id)
+
+      @completion_logs = CompletionLog.includes(:chore, :user)
+                                      .where(chore_id: chore_ids)
+                                      .order(completed_at: :desc)
+                                      .limit(5)
+    else
+      @completion_logs = CompletionLog.none
+    end
 
     # カード用サマリー（このティアリストの家事のみ）
     @total_chores = @chores.count

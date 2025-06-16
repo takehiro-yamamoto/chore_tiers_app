@@ -1,19 +1,14 @@
-<div class="stat-card">
+<div class="stat-card recent-logs-col">
   <h3 class="text-[#5D4037] text-xl font-semibold mb-4">最近の家事完了履歴</h3>
 
   <% if @completion_logs.any? %>
     <ul class="space-y-3">
       <% @completion_logs.each do |log| %>
-        <li class="flex items-center justify-between p-3 bg-[#FFF9F0] rounded-md border border-[#D2B48C]">
-          <div>
-            <p class="font-medium text-[#5D4037]">
-              <%= log.chore.title %>
-            </p>
-            <p class="text-sm text-[#7A6C5D]">
-              <%= log.user.name %> が <%= l(log.completed_at, format: :short) %> に完了
-            </p>
-          </div>
-          <span class="material-icons text-[#FFB347]">check_circle</span>
+        <li class="recent-log-item">
+          <span class="chore-name"><%= log.chore.title %>（<%= log.user.name %>）</span>
+          <span class="completed-time">
+            <%= log.completed_at.in_time_zone("Asia/Tokyo").strftime("%-m月%-d日 %H:%M") %> に完了 ✅
+          </span>
         </li>
       <% end %>
     </ul>

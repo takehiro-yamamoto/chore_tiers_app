@@ -17,8 +17,23 @@
     <div class="chore-info-row">
       <span>★ ティア：<%= tier_priority_label(@chore.tier&.priority) %></span>
       <span>👤 担当：<%= @chore.assigned_to&.name || "未設定" %></span>
-      <span>🕒 完了状態：<%= @chore.completed? ? "完了" : "未完了" %></span>
+      <span>🕒 完了状態：<%= @chore.completed_on?(Date.current) ? "完了" : "未完了" %></span>
     </div>
+  </div>
+
+  <!-- ✅ 家事完了フォーム -->
+  <div class="chore-info-card">
+    <h3>完了登録</h3>
+    <%= form_with model: [@chore, CompletionLog.new], local: true do |f| %>
+      <div class="chore-info-row form-row">
+        <%= f.label :note, "完了メモ（任意）", class: "chore-info-label" %>
+        <%= f.text_field :note, placeholder: "例：夜に実施済", class: "input-text" %>
+      </div>
+      <div class="chore-info-actions" style="text-align: right; margin-top: 0.5rem;">
+        <%= f.hidden_field :completed_at, value: Time.zone.now %>
+        <%= f.submit "完了として登録する", class: "btn-submit" %>
+      </div>
+    <% end %>
   </div>
 
   <!-- 完了履歴テーブル -->
@@ -34,8 +49,8 @@
       <tbody>
         <% @chore.completion_logs.order(completed_at: :desc).each do |log| %>
           <tr>
-            <td><%= l(log.completed_at.to_date, format: :long) %></td>
-            <td><%= log.note %></td>
+            <td><%= log.completed_at.in_time_zone('Asia/Tokyo').strftime('%Y/%m/%d %H:%M') %></td>
+            <td><%= log.note.presence || "（メモなし）" %></td>
           </tr>
         <% end %>
       </tbody>

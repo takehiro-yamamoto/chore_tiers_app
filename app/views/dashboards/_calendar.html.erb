@@ -37,7 +37,7 @@
   <%= link_to dashboards_path(date: @display_date, view: @view_mode, selected: date), data: { turbo_frame: "calendar" }, class: "calendar-cell-link" do %>
     <div class="calendar-cell <%= 'today' if date == Date.current %> <%= 'selected' if is_selected %>">
       <span class="calendar-date"><%= date.day %></span>
-      <% chores = @calendar_chores.select { |c| c.created_at.to_date == date } %>
+      <% chores = @calendar_chores.select { |c| c.scheduled_for?(date) } %>
       <% if chores.any? %>
         <div class="calendar-dots">
           <% chores.each do |chore| %>
@@ -56,7 +56,7 @@
   <%= link_to dashboards_path(date: @display_date, view: @view_mode, selected: date), data: { turbo_frame: "calendar" }, class: "calendar-cell-link" do %>
     <div class="calendar-cell <%= 'other-month' if is_other_month %> <%= 'today' if date == Date.current %> <%= 'selected' if is_selected %>">
       <span class="calendar-date"><%= date.day %></span>
-      <% chores = @calendar_chores.select { |c| c.created_at.to_date == date } %>
+      <% chores = @calendar_chores.select { |c| c.scheduled_for?(date) } %>
       <% if chores.any? %>
         <div class="calendar-dots">
           <% chores.each do |chore| %>
@@ -72,14 +72,25 @@
 
     <div class="calendar-today-detail">
       <% selected_day = params[:selected] ? Date.parse(params[:selected]) : Date.current %>
-      <% todays_chores = @calendar_chores.select { |c| c.created_at.to_date == selected_day } %>
-
+      <% todays_chores = @calendar_chores.select { |c| c.scheduled_for?(selected_day) } %>
       <h5 class="calendar-detail-title"><%= selected_day.strftime("%-m月%-d日") %>の予定された家事</h5>
       <% if todays_chores.any? %>
         <% todays_chores.each do |chore| %>
           <div class="calendar-task-item">
-            <span><%= chore.title %>（<%= chore.tier&.label || "ランク不明" %>）</span>
-            <span class="assigned-name"><%= chore.assigned_to&.name || "未設定" %></span>
+            <div class="calendar-task-info">
+              <span><%= chore.title %>（<%= chore.tier&.label || "ランク不明" %>）</span>
+              <span class="assigned-name"><%= chore.assigned_to&.name || "未設定" %></span>
+            </div>
+            <!-- 変更後（selected_day に対して完了しているか） -->
+            <% if chore.completed_on?(selected_day) %>
+              <div class="calendar-task-status">✅ 完了</div>
+            <% else %>
+              <div class="calendar-task-action">
+                <%= button_to "✔ 完了", chore_completion_logs_path(chore), method: :post,
+                              params: { completion_log: { completed_at: selected_day } },
+                              class: "calendar-complete-btn" %>
+              </div>
+            <% end %>
           </div>
         <% end %>
       <% else %>

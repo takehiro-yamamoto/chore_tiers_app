@@ -5,3 +5,4 @@ import "@hotwired/turbo-rails"
 import "controllers"
 import "./calendar"
 import "./invite_copy"
+import "./chores_form";

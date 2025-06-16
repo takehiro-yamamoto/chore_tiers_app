@@ -159,3 +159,41 @@
   color: inherit;          // 親要素の色を引き継ぐ
   text-decoration: none;   // 下線を消す
 }
+
+.calendar-task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #eee;
+
+  .calendar-task-info {
+    flex: 1;
+    font-size: 0.95rem;
+    color: #333;
+  }
+
+  .calendar-task-action {
+    margin-left: 1rem;
+  }
+
+  .calendar-complete-btn {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.6rem;
+    background-color: #d2b48c;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #b89b6a;
+    }
+  }
+
+  .calendar-task-status {
+    font-size: 0.85rem;
+    color: #5c4835;
+    font-weight: bold;
+  }
+}

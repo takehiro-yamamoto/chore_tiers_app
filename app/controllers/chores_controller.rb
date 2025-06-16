@@ -94,4 +94,16 @@ end
       redirect_to root_path, alert: "権限がありません。"
     end
   end
+
+  def chore_params
+    params.require(:chore).permit(
+      :title,
+      :description,
+      :tier_id,
+      :assigned_to_id,
+      :frequency_type,
+      :scheduled_date,
+      frequency_days: []
+    )
+  end
 end
