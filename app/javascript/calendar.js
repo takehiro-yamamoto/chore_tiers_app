@@ -15,7 +15,7 @@ document.addEventListener('turbo:load', () => {
 
     const title = document.querySelector('.calendar-detail-title');
     if (title) {
-      const dateObj = new Date(selectedDate);
+      const dateObj = new Date(`${selectedDate}T00:00:00+09:00`);
       title.textContent = `${dateObj.getMonth() + 1}月${dateObj.getDate()}日の予定家事`;
     }
   });
