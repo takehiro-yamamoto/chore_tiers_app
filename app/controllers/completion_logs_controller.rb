@@ -8,7 +8,6 @@ class CompletionLogsController < ApplicationController
     @log.completed_at ||= Time.zone.now # ← ここで未指定なら現在時刻
 
     if @log.save
-      @chore.update(completed: true) # ← chore自体も完了マーク
       redirect_to request.referer || chore_path(@chore), notice: '完了履歴を登録しました。'
     else
       redirect_to request.referer || chore_path(@chore), alert: '登録に失敗しました。'

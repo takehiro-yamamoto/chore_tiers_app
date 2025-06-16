@@ -23,4 +23,10 @@ class Chore < ApplicationRecord
       false
     end
   end
+
+  # 指定日付に完了しているかどうか（完了履歴ベースで判定）
+  def completed_on?(date)
+    completion_logs.any? { |log| log.completed_at.to_date == date }
+  end
+
 end

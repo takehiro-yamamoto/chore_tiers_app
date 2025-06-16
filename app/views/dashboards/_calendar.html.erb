@@ -81,13 +81,15 @@
               <span><%= chore.title %>（<%= chore.tier&.label || "ランク不明" %>）</span>
               <span class="assigned-name"><%= chore.assigned_to&.name || "未設定" %></span>
             </div>
-            <% unless chore.completed? %>
+            <!-- 変更後（selected_day に対して完了しているか） -->
+            <% if chore.completed_on?(selected_day) %>
+              <div class="calendar-task-status">✅ 完了</div>
+            <% else %>
               <div class="calendar-task-action">
                 <%= button_to "✔ 完了", chore_completion_logs_path(chore), method: :post,
-                              form_class: "calendar-complete-form", class: "calendar-complete-btn" %>
+                              params: { completion_log: { completed_at: selected_day } },
+                              class: "calendar-complete-btn" %>
               </div>
-            <% else %>
-              <div class="calendar-task-status">✅ 完了</div>
             <% end %>
           </div>
         <% end %>
