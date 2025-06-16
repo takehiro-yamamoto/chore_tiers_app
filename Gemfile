@@ -67,6 +67,11 @@ group :test do
 end
 group :production do
   gem 'unicorn', '6.1.0'
+  gem 'capistrano', '~> 3.17'
+  gem 'capistrano-rails'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rbenv'
+  gem 'capistrano3-unicorn'
 end
 # Devise導入
 gem 'devise'
