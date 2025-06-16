@@ -159,9 +159,16 @@ class DashboardsController < ApplicationController
     end
 
     # 最新完了履歴（5件：グローバル）
-    @completion_logs = CompletionLog.includes(:chore, :user)
-                                    .order(completed_at: :desc)
-                                    .limit(5)
+    if @selected_tier_list
+      chore_ids = @selected_tier_list.chores.pluck(:id)
+
+      @completion_logs = CompletionLog.includes(:chore, :user)
+                                      .where(chore_id: chore_ids)
+                                      .order(completed_at: :desc)
+                                      .limit(5)
+    else
+      @completion_logs = CompletionLog.none
+    end
 
     # カード用サマリー（このティアリストの家事のみ）
     @total_chores = @chores.count
