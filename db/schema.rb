@@ -22,8 +22,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_14_130951) do
   end
 
   create_table "active_storage_blobs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "key", null: false
-    t.string "filename", null: false
+    t.string "key", limit: 191, null: false
+    t.string "filename", limit: 191, null: false
     t.string "content_type"
     t.text "metadata"
     t.string "service_name", null: false
@@ -35,7 +35,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_14_130951) do
 
   create_table "active_storage_variant_records", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "blob_id", null: false
-    t.string "variation_digest", null: false
+    t.string "variation_digest", limit: 191, null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
@@ -95,7 +95,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_14_130951) do
     t.bigint "creator_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "invite_token"
+    t.string "invite_token", limit: 191
     t.index ["creator_id"], name: "index_tier_lists_on_creator_id"
     t.index ["invite_token"], name: "index_tier_lists_on_invite_token", unique: true
   end
