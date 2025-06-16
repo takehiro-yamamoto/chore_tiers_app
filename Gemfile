@@ -80,7 +80,7 @@ gem 'devise'
 gem 'activeadmin'
 
 # UI構築サポート（任意）
-gem 'tailwindcss-rails'
+# gem 'tailwindcss-rails'
 gem 'chartkick' # 統計グラフ
 gem 'groupdate' # 集計用
 gem 'image_processing'      # ActiveStorage画像処理
