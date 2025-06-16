@@ -50,6 +50,14 @@ test:
 #
 production:
   <<: *default
+  adapter: mysql2
   database: chore_tiers_app_production
-  username: chore_tiers_app
-  password: <%= ENV["CHORE_TIERS_APP_DATABASE_PASSWORD"] %>
+  username: root
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  socket: /var/lib/mysql/mysql.sock
+
+# production:
+#   <<: *default
+#   database: chore_tiers_app_production
+#   username: chore_tiers_app
+#   password: <%= ENV["CHORE_TIERS_APP_DATABASE_PASSWORD"] %>
