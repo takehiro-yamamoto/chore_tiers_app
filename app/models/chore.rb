@@ -8,13 +8,15 @@ class Chore < ApplicationRecord
   
   # ✅ スケジュールに基づいて本日実施すべきかを判定
   def scheduled_for?(date)
-  return false if frequency_type.blank?
-
     case frequency_type
     when "daily"
       true
     when "weekly"
-      frequency_days&.split(",")&.include?(date.strftime("%a").downcase)
+      return false if frequency_days.blank?
+
+      # "mon", "tue", ..., "sun" に変換して比較
+      weekday = date.strftime('%a').downcase
+      frequency_days.include?(weekday)
     when "once"
       scheduled_date == date
     else

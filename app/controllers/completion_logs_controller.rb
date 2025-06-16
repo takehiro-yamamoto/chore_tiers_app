@@ -5,12 +5,13 @@ class CompletionLogsController < ApplicationController
   def create
     @log = @chore.completion_logs.build(log_params)
     @log.user = current_user
+    @log.completed_at ||= Time.zone.now # ← ここで未指定なら現在時刻
 
     if @log.save
-      redirect_to chore_path(@chore), notice: '完了履歴を登録しました。'
+      @chore.update(completed: true) # ← chore自体も完了マーク
+      redirect_to request.referer || chore_path(@chore), notice: '完了履歴を登録しました。'
     else
-      flash[:alert] = '登録に失敗しました。'
-      redirect_to chore_path(@chore)
+      redirect_to request.referer || chore_path(@chore), alert: '登録に失敗しました。'
     end
   end
 
@@ -21,6 +22,6 @@ class CompletionLogsController < ApplicationController
   end
 
   def log_params
-    params.require(:completion_log).permit(:completed_at, :note)
+    params.fetch(:completion_log, {}).permit(:completed_at, :note)
   end
 end

@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   end
 
   resources :chores, only: [:index, :new, :create, :destroy, :show, :edit,:update] do
-    resources :completions, only: [:create]
+    resources :completion_logs, only: [:create]
   end
 
   resources :tier_lists do 

@@ -128,10 +128,11 @@ class DashboardsController < ApplicationController
     @calendar_chores = if @selected_tier_list
       @selected_tier_list.chores
         .includes(:assigned_to, :tier)
-        .where(created_at: @calendar_range.first.beginning_of_day..@calendar_range.last.end_of_day)
+        .select { |chore| @calendar_range.any? { |d| chore.scheduled_for?(d) } }
     else
       Chore.none
     end
+
 
     # ---- 今週の家事（選択ティアリストのみ） ----
     @upcoming_week_range = Date.today.beginning_of_week..Date.today.end_of_week

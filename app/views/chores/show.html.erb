@@ -21,6 +21,21 @@
     </div>
   </div>
 
+  <!-- ✅ 家事完了フォーム -->
+  <div class="chore-info-card">
+    <h3>完了登録</h3>
+    <%= form_with url: chore_completion_logs_path(@chore), method: :post, local: true do |f| %>
+      <div class="chore-info-row form-row">
+        <%= f.label :note, "完了メモ（任意）", class: "chore-info-label" %>
+        <%= f.text_field :note, placeholder: "例：夜に実施済", class: "input-text" %>
+      </div>
+      <div class="chore-info-actions" style="text-align: right; margin-top: 0.5rem;">
+        <%= f.hidden_field :completed_at, value: Time.zone.now %>
+        <%= f.submit "完了として登録する", class: "btn-submit" %>
+      </div>
+    <% end %>
+  </div>
+
   <!-- 完了履歴テーブル -->
   <div class="chore-log-section">
     <h3>完了履歴</h3>
