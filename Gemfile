@@ -50,14 +50,7 @@ group :development, :test do
 end
 
 group :development do
-  # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
-
-  # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
-  # gem "rack-mini-profiler"
-
-  # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
-  # gem "spring"
   gem 'capistrano', '~> 3.17'
   gem 'capistrano-rails'
   gem 'capistrano-bundler'
@@ -66,15 +59,10 @@ group :development do
 end
 
 group :test do
-  # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
-  gem 'capistrano', '~> 3.17'
-  gem 'capistrano-rails'
-  gem 'capistrano-bundler'
-  gem 'capistrano-rbenv'
-  gem 'capistrano3-unicorn'
 end
+
 group :production do
   gem 'unicorn', '6.1.0'
   gem 'capistrano', '~> 3.17'
@@ -83,6 +71,7 @@ group :production do
   gem 'capistrano-rbenv'
   gem 'capistrano3-unicorn'
 end
+
 # Devise導入
 gem 'devise'
 
