@@ -33,7 +33,6 @@ namespace :deploy do
   task :restart do
     invoke 'unicorn:restart'
   end
-end
 
 # Nokogiri/glibc互換性問題の対策としてforce_ruby_platformを設定 (↓ここから追加)
   desc 'Set force_ruby_platform to true for Bundler'
