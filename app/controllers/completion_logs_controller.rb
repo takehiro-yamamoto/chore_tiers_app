@@ -5,13 +5,17 @@ class CompletionLogsController < ApplicationController
   def create
     @log = @chore.completion_logs.build(log_params)
     @log.user = current_user
-    @log.completed_at ||= Time.zone.now # ← ここで未指定なら現在時刻
+    @log.completed_at ||= Time.zone.now
 
-    if @log.save
-      redirect_to request.referer || chore_path(@chore), notice: '完了履歴を登録しました。'
-    else
-      redirect_to request.referer || chore_path(@chore), alert: '登録に失敗しました。'
+    ActiveRecord::Base.transaction do
+      @log.save!
+      @chore.update!(completed: true)
     end
+
+    redirect_to request.referer || chore_path(@chore), notice: '完了履歴を登録しました。'
+  rescue => e
+    logger.error "完了履歴登録エラー: #{e.message}"
+    redirect_to request.referer || chore_path(@chore), alert: '登録に失敗しました。'
   end
 
   private
