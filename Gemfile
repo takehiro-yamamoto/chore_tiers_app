@@ -45,31 +45,26 @@ gem "bootsnap", require: false
 # gem "image_processing", "~> 1.2"
 
 group :development, :test do
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri windows ]
-end
-
-group :development do
   gem "web-console"
+  gem "capybara"
+  gem "selenium-webdriver"
+
+  # Capistrano関連（重複しないようにまとめる）
   gem 'capistrano', '~> 3.17'
   gem 'capistrano-rails'
   gem 'capistrano-bundler'
   gem 'capistrano-rbenv'
   gem 'capistrano3-unicorn'
-end
-
-group :test do
-  gem "capybara"
-  gem "selenium-webdriver"
 end
 
 group :production do
   gem 'unicorn', '6.1.0'
-  gem 'capistrano', '~> 3.17'
-  gem 'capistrano-rails'
-  gem 'capistrano-bundler'
-  gem 'capistrano-rbenv'
-  gem 'capistrano3-unicorn'
+  # Capistranoは本来productionで不要ですが、もし必要なら以下を残す（非推奨）
+  # gem 'capistrano', '~> 3.17'
+  # gem 'capistrano-rails'
+  # gem 'capistrano-bundler'
+  # gem 'capistrano-rbenv'
+  # gem 'capistrano3-unicorn'
 end
 
 # Devise導入
