@@ -5,7 +5,7 @@ class CompletionLogsController < ApplicationController
   def create
     @log = @chore.completion_logs.build(log_params)
     @log.user = current_user
-    @log.completed_at ||= Time.zone.now
+    @log.completed_at = Time.zone.now  # 外から受け取らず、内部で固定
 
     ActiveRecord::Base.transaction do
       @log.save!
@@ -18,6 +18,7 @@ class CompletionLogsController < ApplicationController
     redirect_to request.referer || chore_path(@chore), alert: '登録に失敗しました。'
   end
 
+
   private
 
   def set_chore
@@ -25,6 +26,6 @@ class CompletionLogsController < ApplicationController
   end
 
   def log_params
-    params.fetch(:completion_log, {}).permit(:completed_at, :note)
+     params.fetch(:completion_log, {}).permit(:note)
   end
 end
