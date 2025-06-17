@@ -59,7 +59,7 @@
 #     auth_methods: %w(publickey password)
 #     # password: "please use keys"
 #   }
-server '13.113.177.24', user: 'ec2-user', roles: %w{app db web}
+server '54.64.230.66', user: 'ec2-user', roles: %w{app db web}
 set :ssh_options, {
   keys: %w(~/.ssh/my-chores-tier-keypair.pem)
 }

@@ -58,12 +58,22 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+  gem 'capistrano', '~> 3.17'
+  gem 'capistrano-rails'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rbenv'
+  gem 'capistrano3-unicorn'
 end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  gem 'capistrano', '~> 3.17'
+  gem 'capistrano-rails'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rbenv'
+  gem 'capistrano3-unicorn'
 end
 group :production do
   gem 'unicorn', '6.1.0'
