@@ -33,18 +33,18 @@ D&D（ドラッグ＆ドロップ）での家事の優先順位付けや、担�
 ## 📷 実装機能と画面
 
 - 🔒 ユーザー認証（Devise）
-  ![ユーザー登録画面](https://gyazo.com/b9e06ae97060ec0f2c6ff15b9cb2c14b)
-  ![ログイン画面](https://gyazo.com/1f8a7bcab63b72fdca960450aaba4ac5)
+  [ユーザー登録画面](https://gyazo.com/b9e06ae97060ec0f2c6ff15b9cb2c14b)
+  [ログイン画面](https://gyazo.com/1f8a7bcab63b72fdca960450aaba4ac5)
 - 📋 家事登録・リスト・編集・詳細画面
-  ![家事登録画面](https://gyazo.com/d15f30c6918943820d89a87678b8cfcf)
-  ![家事リスト](https://gyazo.com/bc8a0abf61033327e5582cc8bd7f61c9)
-  ![家事編集画面](https://gyazo.com/c87b0128c37faf1ae8a8858960944daf)
-  ![家事詳細画面](https://gyazo.com/87c7285b982f8113dbae4f6f82eb0629)
+  [家事登録画面](https://gyazo.com/d15f30c6918943820d89a87678b8cfcf)
+  [家事リスト](https://gyazo.com/bc8a0abf61033327e5582cc8bd7f61c9)
+  [家事編集画面](https://gyazo.com/c87b0128c37faf1ae8a8858960944daf)
+  [家事詳細画面](https://gyazo.com/87c7285b982f8113dbae4f6f82eb0629)
 - 🧩 ティアリスト編集（D&D機能）
-  ![ティアリスト編集](https://gyazo.com/be86f52cb758de0703bdda4890695370)
-  ![ティアリスト情報編集](https://gyazo.com/65b114b1cc95ac7dfcd5156f521e33b9)
+  [ティアリスト編集](https://gyazo.com/be86f52cb758de0703bdda4890695370)
+  [ティアリスト情報編集](https://gyazo.com/65b114b1cc95ac7dfcd5156f521e33b9)
 - 📊 ダッシュボード（統計・予定・進捗）
-  ![ダッシュボード](https://gyazo.com/beb10eb2743a3d7f871c55f660f3389d)
+  [ダッシュボード](https://gyazo.com/beb10eb2743a3d7f871c55f660f3389d)
 
 ## 🔮 今後の実装予定機能
 
@@ -56,11 +56,11 @@ D&D（ドラッグ＆ドロップ）での家事の優先順位付けや、担�
 
 ER図は以下の通りです：
 
-![ER図](https://gyazo.com/141517f4b1746113313346f54dbce8d5)
+[ER図](https://gyazo.com/141517f4b1746113313346f54dbce8d5)
 
 ## 🔁 画面遷移図
 
-![画面遷移図](https://gyazo.com/d5a6f0db44211aa1a689e81d34d8b55f)
+[画面遷移図](https://gyazo.com/d5a6f0db44211aa1a689e81d34d8b55f)
 
 ## 🛠 開発環境
 
