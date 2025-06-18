@@ -197,3 +197,15 @@
     font-weight: bold;
   }
 }
+
+.calendar-cell.saturday {
+  background-color: #e3f2fd;
+}
+
+.calendar-cell.sunday {
+  background-color: #ffebee;
+}
+
+.calendar-cell.holiday {
+  background-color: #ffebee;
+}

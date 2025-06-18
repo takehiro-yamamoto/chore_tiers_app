@@ -59,7 +59,7 @@ end
 
 group :production do
   gem 'unicorn', '6.1.0'
-  # Capistranoは本来productionで不要ですが、もし必要なら以下を残す（非推奨）
+  # Capistranoは本来productionで不要ですが、もし必要なら以下を残す
   # gem 'capistrano', '~> 3.17'
   # gem 'capistrano-rails'
   # gem 'capistrano-bundler'
@@ -80,3 +80,4 @@ gem 'groupdate' # 集計用
 gem 'image_processing'      # ActiveStorage画像処理
 gem "sassc" # SCSSコンパイラ
 gem 'sassc-rails' # SCSSをRailsで使うためのgem
+gem 'holidays' # 日本の祝日を扱うためのgem
