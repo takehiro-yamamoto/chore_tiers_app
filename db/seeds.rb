@@ -17,7 +17,7 @@ tiers = [
 
 tiers.each do |tier|
   Tier.find_or_create_by!(name: tier[:name]) do |t|
-    t.label = tier[:label]   # CSSクラス名に一致させる
+    t.label = tier[:label]   # SCSSクラス名に一致させる
     t.priority = tier[:priority]
   end
 end
