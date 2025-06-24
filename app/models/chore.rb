@@ -5,7 +5,13 @@ class Chore < ApplicationRecord
 
   has_many :completion_logs, dependent: :destroy
   has_many :tier_list_items, dependent: :destroy
-  
+
+  # ✅ バリデーション
+  validates :title, presence: true, length: { maximum: 20 }
+  validates :creator, presence: true
+  validates :assigned_to, presence: true
+  validates :frequency_type, presence: true
+
   # ✅ スケジュールに基づいて本日実施すべきかを判定
   def scheduled_for?(date)
     case frequency_type

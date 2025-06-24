@@ -11,4 +11,17 @@ class User < ApplicationRecord
   has_many :assigned_chores, class_name: "Chore", foreign_key: "assigned_to_id"
   has_many :created_chores, class_name: "Chore", foreign_key: "created_by_id"
 
+  # ✅ バリデーション
+  validates :name, presence: true, length: { maximum: 20 }
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
+
+  validate :password_complexity
+
+  private
+
+  def password_complexity
+    return if password.blank? || password =~ /\A(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+\z/
+    errors.add :password, 'は半角英数字混合で入力してください'
+  end
+
 end

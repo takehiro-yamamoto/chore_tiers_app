@@ -9,7 +9,9 @@ class TierList < ApplicationRecord
   after_create :add_creator_to_members
   before_destroy :destroy_linked_chores # ★追加
 
-  validates :name, presence: true
+  validates :name, presence: true, length: { maximum: 30 },
+                  uniqueness: { scope: :creator_id, message: 'はすでに登録済みです' }
+  validates :creator, presence: true
 
   private
 

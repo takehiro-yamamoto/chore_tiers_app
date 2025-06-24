@@ -43,9 +43,11 @@ gem "bootsnap", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
+group :development do
+  gem "web-console"
+end
 
 group :development, :test do
-  gem "web-console"
   gem "capybara"
   gem "selenium-webdriver"
 
@@ -55,6 +57,8 @@ group :development, :test do
   gem 'capistrano-bundler'
   gem 'capistrano-rbenv'
   gem 'capistrano3-unicorn'
+  gem "factory_bot_rails"
+  gem "faker"
 end
 
 group :production do
@@ -81,3 +85,6 @@ gem 'image_processing'      # ActiveStorage画像処理
 gem "sassc" # SCSSコンパイラ
 gem 'sassc-rails' # SCSSをRailsで使うためのgem
 gem 'holidays' # 日本の祝日を扱うためのgem
+gem "rspec-rails", "~> 7.1"
+
+gem "rails-i18n", "~> 7.0"

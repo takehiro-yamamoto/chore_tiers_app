@@ -1,0 +1,87 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザー
+      chore: 家事
+      tier_list: ティアリスト
+      completion_log: 完了履歴
+    attributes:
+      user:
+        name: 名前
+        email: メールアドレス
+        password: パスワード
+      chore:
+        title: タイトル
+        creator: 作成者
+        assigned_to: 担当者
+        frequency_type: 実施頻度
+      tier_list:
+        name: リスト名
+        creator: 作成者
+      completion_log:
+        completed_at: 完了日時
+        note: メモ
+        chore: 家事
+        user: ユーザー
+      tier_list:
+        name: リスト名
+        creator: 作成者
+
+  errors:
+    format: "%{attribute}%{message}"
+    messages:
+      blank: "を入力してください"
+      too_long: "は%{count}文字以内で入力してください"
+      too_short: "は%{count}文字以上で入力してください"
+      taken: "はすでに存在します"
+      invalid: "は不正な値です"
+      confirmation: "が一致しません"
+      not_a_number: "は数値で入力してください"
+    models:
+      chore:
+        attributes:
+          title:
+            blank: "を入力してください"
+            too_long: "は%{count}文字以内で入力してください"
+          creator:
+            blank: "を入力してください"
+          assigned_to:
+            blank: "を入力してください"
+          frequency_type:
+            blank: "を入力してください"
+      user:
+        attributes:
+          name:
+            blank: "を入力してください"
+            too_long: "は%{count}文字以内で入力してください"
+          email:
+            invalid: "は不正な形式です"
+          password:
+            blank: "を入力してください"
+            too_short: "は%{count}文字以上で入力してください"
+            confirmation: "が一致しません"
+      tier_list:
+        attributes:
+          name:
+            blank: "を入力してください"
+            too_long: "は%{count}文字以内で入力してください"
+          creator:
+            blank: "を入力してください"
+      completion_log:
+        attributes:
+          completed_at:
+            blank: "を入力してください"
+          note:
+            too_long: "は%{count}文字以内で入力してください"
+          chore:
+            blank: "を入力してください"
+          user:
+            blank: "を入力してください"
+      tier_list:
+        attributes:
+          name:
+            blank: "を入力してください"
+            too_long: "は%{count}文字以内で入力してください"
+            taken: "はすでに登録済みです"
+          creator:
+            blank: "を入力してください"
