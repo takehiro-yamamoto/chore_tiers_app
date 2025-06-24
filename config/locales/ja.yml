@@ -77,11 +77,3 @@ ja:
             blank: "を入力してください"
           user:
             blank: "を入力してください"
-      tier_list:
-        attributes:
-          name:
-            blank: "を入力してください"
-            too_long: "は%{count}文字以内で入力してください"
-            taken: "はすでに登録済みです"
-          creator:
-            blank: "を入力してください"
