@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   # ✅ 本番環境のみでBasic認証を有効にする
-  before_action :basic_auth, if: :production?
+  before_action :basic_auth, if: -> { Rails.env.production? }
 
 protected
 
